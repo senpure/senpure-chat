@@ -78,7 +78,13 @@ public class UserService {
         return target;
     }
 
-    public void addDiamond(String type, UserEntity user, long diamond) {
+    public void addDiamond(String type, long userId, long diamond) {
+        UserEntity user = userIdMap.get(userId);
+        if (user != null) {
+            addDiamond(type, user, diamond);
+        }
+    }
+    private  void addDiamond(String type, UserEntity user, long diamond) {
         long before = user.getDiamond();
         user.setDiamond(before + diamond);
         UserDiamondChangeEvent event = new UserDiamondChangeEvent();

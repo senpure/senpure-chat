@@ -15,8 +15,11 @@
         <module>senpure-chat-free</module>
         <module>senpure-chat-bean</module>
         <module>senpure-chat-client</module>
+        <module>senpure-chat-eureka</module>
     </modules>
-
+    <properties>
+        <senpure.version>1.0.RELEASE</senpure.version>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
