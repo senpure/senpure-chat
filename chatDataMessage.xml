@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<messages package="com.senpure.chat.data.protocol" id="1000" model="data">
+    <import path="chatBean.xml"></import>
+    <message id="100" type="CS" name="UserLogin">
+        <field type="String" name="id"></field>
+        <field type="String" name="nick"></field>
+    </message>
+    <message id="101" type="SC" name="UserLogin">
+        <field type="User" name="user"></field>
+    </message>
+
+
+    <message id="103" type="CS" name="LoadUser">
+        <field type="long" name="id"></field>
+    </message>
+
+    <message id="104" type="SC" name="LoadUser">
+        <field type="User" name="user"></field>
+    </message>
+
+    <message id="105" type="CS" name="AddDiamond">
+        <field type="long" name="id"></field>
+        <field type="String" name="type"></field>
+        <field type="long" name="diamond"></field>
+    </message>
+
+    <message id="106" type="SC" name="AddDiamond">
+        <field type="String" name="type"></field>
+        <field type="long" name="diamond"></field>
+        <field type="User" name="user"></field>
+    </message>
+</messages>

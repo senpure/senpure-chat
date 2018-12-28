@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<messages package="com.senpure.chat.protocol" id="2000" model="chat">
+    <import path="chatBean.xml"></import>
+
+    <message id="102" type="CS" name="JoinRoom">
+        <field type="long" name="roomId"></field>
+    </message>
+
+    <message id="104" type="SC" name="UserDiamondChange">
+        <field type="long" name="userId"></field>
+        <field type="long" name="changeDiamond"></field>
+        <field type="long" name="afterDiamond"></field>
+    </message>
+</messages>

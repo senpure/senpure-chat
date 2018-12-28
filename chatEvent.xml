@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<messages package="com.senpure.chat.protocol" id="100" model="chat">
+    <import path="chatBean.xml"></import>
+    <event name="UserLogin" id="100">
+        <field type="long" name="time" explain="登录时间"></field>
+        <field type="User" name="user" explain="user"></field>
+    </event>
+    <event name="UserLogout" id="101">
+        <field type="long" name="loginTime" explain="登录时间"></field>
+        <field type="long" name="logoutTime" explain="退出时间"></field>
+        <field type="User" name="user" explain="user"></field>
+    </event>
+
+    <event name="UserDiamondChange" id="102">
+        <field type="String" name="changeType" explain="改变方式"></field>
+        <field type="long" name="time" explain="时间"></field>
+        <field type="long" name="before" explain="before"></field>
+        <field type="long" name="num" explain="num"></field>
+        <field type="long" name="after" explain="after"></field>
+        <field type="User" name="user" explain="user"></field>
+    </event>
+</messages>

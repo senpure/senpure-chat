@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<messages package="com.senpure.chat.protocol" id="100" model="chat">
+    <bean name="User">
+        <field type="long" name="userId" explain="用户id"></field>
+        <field type="String" name="nick" explain="昵称"></field>
+        <field type="long" name="diamond" explain="钻石数"></field>
+    </bean>
+</messages>

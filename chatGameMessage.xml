@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<messages package="com.senpure.chat.game.protocol" id="4000" model="game">
+    <import path="chatBean.xml"></import>
+    <message id="100" type="CS" name="GameChat">
+        <field type="long" name="userId"></field>
+        <field type="String" name="type"></field>
+        <field type="String" name="content"></field>
+    </message>
+    <message id="101" type="SC" name="GameChat">
+        <field type="long" name="userId"></field>
+        <field type="String" name="type"></field>
+        <field type="String" name="title"></field>
+        <field type="String" name="content"></field>
+    </message>
+    <message id="200" type="CS" name="CreateGameChat">
+    </message>
+
+    <message id="201" type="SC" name="EntryGameChat">
+        <field type="User" name="user"></field>
+    </message>
+    <message id="202" type="SC" name="ExitGameChat">
+        <field type="User" name="user"></field>
+    </message>
+</messages>
