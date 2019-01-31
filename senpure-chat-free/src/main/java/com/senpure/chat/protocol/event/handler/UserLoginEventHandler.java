@@ -13,13 +13,13 @@ public class UserLoginEventHandler extends AbstractEventHandler<UserLoginEvent> 
 
     @Override
     public void execute(UserLoginEvent event) {
-        //TODO 请在这里写下你处理UserLoginEvent的代码，并删除该条注释
+        logger.info("{}", event);
 
     }
 
     @Override
     public int handlerId() {
-                //2018-12-28 10:56:01 100100
+        //2018-12-28 10:56:01 100100
         return UserLoginEvent.EVENT_ID;
     }
 

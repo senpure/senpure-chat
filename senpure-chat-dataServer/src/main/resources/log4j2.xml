@@ -4,7 +4,7 @@
         <Property name="PID">????</Property>
         <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
         <Property name="LOG_LEVEL_PATTERN">%5p</Property>
-        <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint}%clr{${LOG_LEVEL_PATTERN}}%clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%-28.28t]}{faint}%clr{%-40.40c{3.}}{cyan} %clr{:}{faint}%m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}
+        <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint}%clr{${LOG_LEVEL_PATTERN}}%clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%-28.28t]}{faint}%clr{%-60.60c}{cyan} [%-4L] %clr{:}{faint}%m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}
         </Property>
     </Properties>
     <appenders>
@@ -22,7 +22,12 @@
         </RollingFile>
     </appenders>
     <loggers>
-        <logger name="org.apache.kafka.clients" level="info"></logger>
+        <!--actuator 注册信息
+        <logger name="org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping" level="trace"></logger>
+      -->
+        <logger name="org.eclipse" level="info"></logger>
+        <logger name="spring.web.readers.parameter.ModelAttributeParameterExpander" level="info"></logger>
+        <logger name="org.apache.kafka" level="info"></logger>
         <logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="info"></logger>
         <Root level="debug">
             <AppenderRef ref="Console"/>

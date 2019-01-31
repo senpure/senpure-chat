@@ -15,8 +15,7 @@ import org.springframework.messaging.support.MessageBuilder;
  * @author senpure
  * @time 2018-12-14 17:18:19
  */
-//@Configuration
-@EnableBinding({SourceLogin.class,SourceLogout.class,SourceDiamondChange.class})
+@EnableBinding({SourceLogin.class, SourceLogout.class, SourceDiamondChange.class})
 public class EventSender {
 
     @Autowired

@@ -2,7 +2,6 @@ package com.senpure.chat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * DataBoot
@@ -11,7 +10,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * @time 2018-12-14 18:07:46
  */
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 public class DataBoot {
 
     public static void main(String[] args) {

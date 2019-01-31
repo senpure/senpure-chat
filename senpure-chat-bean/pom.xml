@@ -11,5 +11,12 @@
 
     <artifactId>senpure-chat-bean</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.senpure</groupId>
+            <artifactId>senpure-web</artifactId>
+            <version>${senpure.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

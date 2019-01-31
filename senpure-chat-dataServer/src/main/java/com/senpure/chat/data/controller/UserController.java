@@ -1,18 +1,19 @@
 package com.senpure.chat.data.controller;
 
-import com.senpure.base.result.ResultData;
+import com.senpure.base.result.ActionResult;
 import com.senpure.base.result.ResultMap;
 import com.senpure.base.spring.BaseController;
 import com.senpure.chat.data.criteria.ChangeDiamondCriteria;
-import com.senpure.chat.data.entity.UserEntity;
+import com.senpure.chat.data.result.UserRecordResult;
 import com.senpure.chat.data.service.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -26,33 +27,42 @@ import javax.validation.Valid;
 @Controller
 public class UserController extends BaseController {
 
-    @Autowired
+
     private UserService userService;
 
-    @PutMapping("user/diamond")
-    @ResponseBody
-    public ResultData<UserEntity> updateUserDiamond(HttpServletRequest request, @Valid @ModelAttribute("criteria") ChangeDiamondCriteria criteria, BindingResult validResult) {
+    @Autowired
+    public UserController setUserService(UserService userService) {
+        this.userService = userService;
+        return this;
+    }
 
+    @PutMapping("user/{id}/diamond")
+    @ResponseBody
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", paramType = "path")})
+    @ApiResponses(@ApiResponse(code = 200, message = "OK", response = ActionResult.class))
+    public ResultMap updateUserDiamond(HttpServletRequest request, @Valid @ModelAttribute("criteria") ChangeDiamondCriteria criteria, BindingResult validResult) {
         if (validResult.hasErrors()) {
-            // return incorrect(request, validResult);
-            return null;
+            return incorrect(request, validResult);
         }
-        userService.addDiamond(criteria.getType(), criteria.getUserId(), criteria.getDiamond());
-        return null;
+        logger.debug("id {}", criteria.getId());
+        userService.addDiamond(criteria.getType(), criteria.getId(), criteria.getDiamond());
+        return ResultMap.success();
     }
 
-    @PutMapping("user/diamond2")
+
+    @GetMapping("user/{id}")
     @ResponseBody
-    public ModelAndView updateUserDiamond2(HttpServletRequest request, @Valid @ModelAttribute("criteria") ChangeDiamondCriteria criteria, BindingResult validResult) {
-
-
-        return null;
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", paramType = "path",dataType = "long")})
+    @ApiResponses(@ApiResponse(code = 200, message = "OK", response = UserRecordResult.class))
+    public ResultMap readUser(HttpServletRequest request, @PathVariable  Long id) {
+        Long numberId;
+        try {
+            numberId = Long.valueOf(id);
+        } catch (NumberFormatException e) {
+            logger.error("输入转换失败", e);
+            return wrapMessage(request, ResultMap.notExist(), id);
+        }
+        return ResultMap.success();
     }
 
-    @PutMapping("user/diamond3")
-    @ResponseBody
-    public ResultMap updateUserDiamond3(HttpServletRequest request, @Valid @ModelAttribute("criteria") ChangeDiamondCriteria criteria, BindingResult validResult) {
-
-        return null;
-    }
 }

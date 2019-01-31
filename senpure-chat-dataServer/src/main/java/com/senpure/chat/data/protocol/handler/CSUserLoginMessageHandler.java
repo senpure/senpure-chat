@@ -1,5 +1,6 @@
 package com.senpure.chat.data.protocol.handler;
-import com.senpure.chat.data.entity.UserEntity;
+
+import com.senpure.chat.data.model.User;
 import com.senpure.chat.data.protocol.message.CSUserLoginMessage;
 import com.senpure.chat.data.protocol.message.SCUserLoginMessage;
 import com.senpure.chat.data.service.UserService;
@@ -20,9 +21,8 @@ public class CSUserLoginMessageHandler extends AbstractRealityMessageHandler<CSU
     @Override
     public void execute(Channel channel, long token, long userId, CSUserLoginMessage message) {
 
-        UserEntity user = userService.login(message.getId(), message.getNick());
+        User user = userService.login(message.getId(), message.getNick());
         if (user != null) {
-
             SCUserLoginMessage loginMessage = new SCUserLoginMessage();
             loginMessage.setUser(userService.convert(user));
             gatewayManager.sendMessage2GatewayByToken(token, loginMessage);

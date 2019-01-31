@@ -1,9 +1,8 @@
 package com.senpure.chat.data.service;
 
 
-import com.senpure.chat.data.entity.UserEntity;
+import com.senpure.chat.data.model.User;
 import com.senpure.chat.protocol.event.EventSender;
-import com.senpure.chat.protocol.bean.User;
 import com.senpure.chat.protocol.event.UserDiamondChangeEvent;
 import com.senpure.chat.protocol.event.UserLoginEvent;
 import com.senpure.chat.protocol.event.UserLogoutEvent;
@@ -22,32 +21,36 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Service
 public class UserService {
-
-    private AtomicLong idgeatrator = new AtomicLong(100000);
     @Autowired
     private EventSender eventSender;
 
-    private Map<String, UserEntity> userStrMap = new ConcurrentHashMap<>();
-   private Map<Long, UserEntity> userIdMap = new ConcurrentHashMap<>();
-    public UserEntity login(String id, String nick) {
-        UserEntity user = userStrMap.get(id);
+    private AtomicLong idGenerator = new AtomicLong(100000);
+
+
+
+    private Map<String, User> userStrMap = new ConcurrentHashMap<>();
+    private Map<Long, User> userIdMap = new ConcurrentHashMap<>();
+
+    public User login(String id, String nick) {
+        User user = userStrMap.get(id);
         if (user == null) {
-            user = new UserEntity();
-            user.setUserId(idgeatrator.getAndIncrement());
+            user = new User();
+            user.setId(idGenerator.getAndIncrement());
             user.setStrId(id);
+            user.setDiamond(0L);
             if (nick == null || nick.length() == 0) {
-                user.setNick("游客" + user.getUserId());
+                user.setNick("游客" + user.getId());
             } else {
                 user.setNick(nick);
             }
 
-            addDiamond("init", user, 500);
+            addDiamond("INIT", user, 500);
         }
 
         user.setStrId(id);
         userStrMap.put(id, user);
 
-        userIdMap.put(user.getUserId(), user);
+        userIdMap.put(user.getId(), user);
         UserLoginEvent event = new UserLoginEvent();
         event.setTime(System.currentTimeMillis());
         event.setUser(convert(user));
@@ -56,35 +59,36 @@ public class UserService {
     }
 
     public void logout(long userId) {
-        UserEntity user = userIdMap.remove(userId);
+        User user = userIdMap.remove(userId);
         if (user != null) {
             userStrMap.remove(user.getStrId());
             UserLogoutEvent event = new UserLogoutEvent();
             event.setLoginTime(user.getLoginTime());
             event.setLogoutTime(System.currentTimeMillis());
-            event.setUser(new User());
+            event.setUser(new com.senpure.chat.protocol.bean.User());
             eventSender.send(event);
         }
     }
 
-    public User convert(UserEntity source) {
-        return convert(source, new User());
+    public com.senpure.chat.protocol.bean.User convert(User source) {
+        return convert(source, new com.senpure.chat.protocol.bean.User());
     }
 
-    public User convert(UserEntity source, User target) {
-        target.setUserId(source.getUserId());
+    public com.senpure.chat.protocol.bean.User convert(User source, com.senpure.chat.protocol.bean.User target) {
+        target.setUserId(source.getId());
         target.setNick(source.getNick());
         target.setDiamond(source.getDiamond());
         return target;
     }
 
     public void addDiamond(String type, long userId, long diamond) {
-        UserEntity user = userIdMap.get(userId);
+        User user = userIdMap.get(userId);
         if (user != null) {
             addDiamond(type, user, diamond);
         }
     }
-    private  void addDiamond(String type, UserEntity user, long diamond) {
+
+    private void addDiamond(String type, User user, long diamond) {
         long before = user.getDiamond();
         user.setDiamond(before + diamond);
         UserDiamondChangeEvent event = new UserDiamondChangeEvent();
@@ -93,7 +97,7 @@ public class UserService {
         event.setAfter(user.getDiamond());
         event.setNum(diamond);
         event.setTime(System.currentTimeMillis());
-        User u = convert(user);
+        com.senpure.chat.protocol.bean.User u = convert(user);
         event.setUser(u);
         eventSender.send(event);
 

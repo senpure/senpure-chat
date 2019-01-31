@@ -1,4 +1,4 @@
-package com.senpure.chat.game.protocol.handler;
+package com.senpure.chat.game.protocol.message.handler;
 
 import com.senpure.chat.game.protocol.message.SCEntryGameChatMessage;
 import com.senpure.io.handler.AbstractMessageHandler;

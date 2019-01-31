@@ -3,6 +3,7 @@ package com.senpure.chat.event;
 import com.senpure.base.AppEvn;
 import com.senpure.base.util.DateFormatUtil;
 import com.senpure.chat.DataBoot;
+import com.senpure.chat.data.service.UserService;
 import com.senpure.chat.protocol.bean.User;
 import com.senpure.chat.protocol.event.EventSender;
 import com.senpure.chat.protocol.event.UserLoginEvent;
@@ -26,11 +27,20 @@ public class EventSenderTest {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
+    private UserService userService;
+    @Autowired
     private EventSender eventSender;
     @BeforeClass
     public static void before() {
 
-        AppEvn.markStartClass(DataBoot.class);
+        AppEvn.markClassRootPath(DataBoot.class);
+
+    }
+
+    @Test
+    public void load()
+    {
+
     }
 
     @Test
