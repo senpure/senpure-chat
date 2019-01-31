@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    该xml为[senpure-code-generator]于[2019-01-29 10:00:49]自动生成，如果预计字段经常变动，不
+    建议修改。如果该xml不能满足需要可新建一个mxl，如UserExpandMapper.xml，将命名空间指向com.
+    senpure.chat.data.mapper.ModelAMapper即可，该xml中定义的userResultMap与userAllColumns等
+    其他可以在新建的xml中直接引用。
+-->
+<mapper namespace="com.senpure.chat.data.mapper.UserMapper">
+    <resultMap id="userResultMap" type="com.senpure.chat.data.model.User">
+        <id     column="id"          property="id"         jdbcType="BIGINT"/>    <!-- (主键) -->
+        <result column="version"     property="version"    jdbcType="INTEGER"/>   <!-- 乐观锁，版本控制 -->
+        <result column="user_id"     property="userId"     jdbcType="BIGINT"/>    <!-- 用户id -->
+        <result column="nick"        property="nick"       jdbcType="VARCHAR"/>   <!-- 昵称 -->
+        <result column="diamond"     property="diamond"    jdbcType="BIGINT"/>    <!-- 钻石 -->
+        <result column="login_time"  property="loginTime"  jdbcType="BIGINT"/>    <!-- 登录时间 时间戳 -->
+        <result column="login_date"  property="loginDate"  jdbcType="TIMESTAMP"/> <!-- 登录时间 -->
+        <result column="str_id"      property="strId"      jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="userAllColumns">
+        id,version,user_id,nick,diamond,login_time,login_date,str_id
+    </sql>
+
+    <!--主键查找-->
+    <select id="find" resultMap="userResultMap" parameterType="Long">
+        select <include refid="userAllColumns"/> from user where id = #{id}
+    </select>
+
+    <!--主键删除-->
+    <delete id="delete" parameterType="Long">
+        delete from user where id = #{id}
+    </delete>
+
+
+    <!--按条件删除(不取主键的值进行对比，即主键无效化)-->
+    <delete id="deleteByCriteria" parameterType="com.senpure.chat.data.criteria.UserCriteria">
+        delete from user
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="nick != null">
+                and nick = #{nick}
+            </if>
+            <if test="diamond != null">
+                and diamond = #{diamond}
+            </if>
+            <if test="loginDate != null">
+                and login_time = #{loginDate.time}
+            </if>
+            <if test="strId != null">
+                and str_id = #{strId}
+            </if>
+            <if test="startLoginDate != null">
+                and login_time >= #{startLoginDate.time}
+            </if>
+            <if test="endLoginDate != null">
+                and login_time &lt;= #{endLoginDate.time}
+            </if>
+        </where>
+    </delete>
+
+    <!-- 取对象的值，直接插入数据库(包括空值),version字段(版本控制)，被初始化为1-->
+    <insert id="save" parameterType="com.senpure.chat.data.model.User" >
+        insert into user (<include refid="userAllColumns"/>)
+        values (#{id},1,#{userId},#{nick},#{diamond},#{loginTime},#{loginDate},#{strId})
+    </insert>
+
+    <!-- 取对象的值，直接插入数据库(包括空值),version字段(版本控制)，被初始化为1-->
+    <insert id="saveBatch" parameterType="com.senpure.chat.data.model.User" >
+        insert into user (<include refid="userAllColumns"/>)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},1,#{item.userId},#{item.nick},#{item.diamond},#{item.loginTime},#{item.loginDate},#{item.strId})
+        </foreach>
+    </insert>
+
+    <!--会进行对象的空值判断，不为空才更新，以主键进行where判断,version字段(版本控制)，必须有有效值-->
+    <update id="update" parameterType="com.senpure.chat.data.model.User">
+        update user
+        <set>
+            <bind name="versionUpdate" value="version + 1"/>
+            version = #{versionUpdate},
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="nick != null">
+                nick = #{nick},
+            </if>
+            <if test="diamond != null">
+                diamond = #{diamond},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime},
+            </if>
+            <if test="loginDate != null">
+                login_date = #{loginDate},
+            </if>
+            <if test="strId != null">
+                str_id = #{strId},
+            </if>
+        </set>
+        where id = #{id}  and version =  #{version}
+    </update>
+
+    <!-- 直接将值覆盖到数据库，不会做为空判断，以主键进行where判断,version字段(版本控制)，必须有有效值-->
+    <update id="cover" parameterType="com.senpure.chat.data.model.User">
+        update user
+        <set>
+            <bind name="versionUpdate" value="version + 1"/>
+            version = #{versionUpdate},
+            user_id = #{userId},
+            nick = #{nick},
+            diamond = #{diamond},
+            login_time = #{loginTime},
+            login_date = #{loginDate},
+            str_id = #{strId},
+        </set>
+        where id = #{id}  and version =  #{version}
+    </update>
+
+    <!--会进行对象的空值判断，不为空才更新，主键无值时，可以进行批量更新-->
+    <update id="updateByCriteria" parameterType="com.senpure.chat.data.criteria.UserCriteria">
+        update user
+        <set>
+            <choose>
+                <when test="version != null">
+                    <bind name="versionUpdate" value="version + 1"/>
+                    version = #{versionUpdate},
+                </when>
+                <otherwise>
+                    version = version + 1,
+                </otherwise>
+            </choose>
+                <if test="userId != null">
+                    user_id = #{userId},
+                </if>
+                <if test="nick != null">
+                    nick = #{nick},
+                </if>
+                <if test="diamond != null">
+                    diamond = #{diamond},
+                </if>
+                <if test="loginDate != null">
+                    login_date = #{loginDate},
+                    login_time = #{loginDate.time},
+                </if>
+                <if test="strId != null">
+                    str_id = #{strId},
+                </if>
+        </set>
+        <where>
+                <if test="id != null">
+                    id = #{id}
+                 </if>
+            <if test="startLoginDate != null">
+                and login_time >= #{startLoginDate.time}
+            </if>
+            <if test="endLoginDate != null">
+                and login_time &lt;= #{endLoginDate.time}
+            </if>
+                <if test="version != null">
+                    and version =  #{version}
+                </if>
+        </where>
+     </update>
+
+    <select id="count" resultType="int">
+        select count(*) from user
+    </select>
+
+    <select id="findAll" resultMap="userResultMap" parameterType="Long">
+        select <include refid="userAllColumns"/> from user
+    </select>
+
+    <!--主键会无效化,不会进行条件对比-->
+    <select id="countByCriteria" resultType="int" parameterType="com.senpure.chat.data.criteria.UserCriteria">
+        select count(*) from user
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="nick != null">
+                and nick = #{nick}
+            </if>
+            <if test="diamond != null">
+                and diamond = #{diamond}
+            </if>
+            <if test="loginDate != null">
+                and login_time = #{loginDate.time}
+            </if>
+            <if test="strId != null">
+                and str_id = #{strId}
+            </if>
+            <if test="startLoginDate != null">
+                and login_time >= #{startLoginDate.time}
+            </if>
+            <if test="endLoginDate != null">
+                and login_time &lt;= #{endLoginDate.time}
+            </if>
+        </where>
+    </select>
+
+    <!--主键会无效化,不会进行条件对比-->
+    <select id="findByCriteria" parameterType="com.senpure.chat.data.criteria.UserCriteria" resultMap="userResultMap">
+        select <include refid="userAllColumns"/>
+        from user
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="nick != null">
+                and nick = #{nick}
+            </if>
+            <if test="diamond != null">
+                and diamond = #{diamond}
+            </if>
+            <if test="loginDate != null">
+                and login_date = #{loginDate}
+            </if>
+            <if test="strId != null">
+                and str_id = #{strId}
+            </if>
+            <if test="startLoginDate != null">
+                and login_time >= #{startLoginDate.time}
+            </if>
+            <if test="endLoginDate != null">
+                and login_time &lt;= #{endLoginDate.time}
+            </if>
+        </where>
+        <if test="hasOrder">
+            ORDER BY
+            <foreach collection="criteriaOrder" index="key" item="item" separator=",">
+                <if test="item == 'DESC'">
+                    ${key} DESC
+                </if>
+                <if test="item == 'ASC'">
+                    ${key} ASC
+                </if>
+            </foreach>
+        </if>
+        <if test="usePage">
+            <choose>
+                <when test="firstResult == 0">
+                    limit #{maxResults}
+                </when>
+                <otherwise>
+                    limit #{firstResult}, #{maxResults}
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+</mapper>
