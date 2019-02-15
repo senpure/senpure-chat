@@ -14,6 +14,7 @@ public class Player {
     private String nick;
     //钻石数
     private long diamond;
+    private long token;
 
     public long getId() {
         return id;
@@ -37,5 +38,14 @@ public class Player {
 
     public void setDiamond(long diamond) {
         this.diamond = diamond;
+    }
+
+    public long getToken() {
+        return token;
+    }
+
+    public Player setToken(long token) {
+        this.token = token;
+        return this;
     }
 }

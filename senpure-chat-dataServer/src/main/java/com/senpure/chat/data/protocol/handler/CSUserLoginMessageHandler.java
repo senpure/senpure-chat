@@ -18,6 +18,7 @@ public class CSUserLoginMessageHandler extends AbstractRealityMessageHandler<CSU
 
     @Autowired
     private UserService userService;
+
     @Override
     public void execute(Channel channel, long token, long userId, CSUserLoginMessage message) {
 
@@ -25,14 +26,14 @@ public class CSUserLoginMessageHandler extends AbstractRealityMessageHandler<CSU
         if (user != null) {
             SCUserLoginMessage loginMessage = new SCUserLoginMessage();
             loginMessage.setUser(userService.convert(user));
-            gatewayManager.sendMessage2GatewayByToken(token, loginMessage);
+            gatewayManager.sendLoginMessage2Gateway(token,user.getId(),loginMessage);
         }
 
     }
 
     @Override
     public int handlerId() {
-                //2018-12-25 11:29:12 1000100
+        //2018-12-25 11:29:12 1000100
         return CSUserLoginMessage.MESSAGE_ID;
     }
 

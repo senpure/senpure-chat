@@ -9,6 +9,7 @@ import com.senpure.chat.protocol.event.UserLogoutEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,7 +39,7 @@ public class UserService {
             user.setId(idGenerator.getAndIncrement());
             user.setStrId(id);
             user.setDiamond(0L);
-            if (nick == null || nick.length() == 0) {
+            if (nick == null || nick.length() == 0||nick.startsWith("游客")) {
                 user.setNick("游客" + user.getId());
             } else {
                 user.setNick(nick);
@@ -48,6 +49,8 @@ public class UserService {
         }
 
         user.setStrId(id);
+        user.setLoginTime(System.currentTimeMillis());
+        user.setLoginDate(new Date(user.getLoginTime()));
         userStrMap.put(id, user);
 
         userIdMap.put(user.getId(), user);

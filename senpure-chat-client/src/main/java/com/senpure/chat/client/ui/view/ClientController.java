@@ -2,7 +2,10 @@ package com.senpure.chat.client.ui.view;
 
 import com.senpure.chat.data.protocol.message.CSUserLoginMessage;
 import com.senpure.chat.data.protocol.message.SCUserLoginMessage;
+import com.senpure.chat.game.protocol.message.CSCreateGameChatMessage;
+import com.senpure.chat.game.protocol.message.SCEntryGameChatMessage;
 import com.senpure.chat.protocol.bean.User;
+import com.senpure.chat.protocol.message.CSJoinRoomMessage;
 import com.senpure.io.ClientServer;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.application.Platform;
@@ -30,6 +33,9 @@ public class ClientController implements Initializable {
     TextField textFieldNick;
     @FXML
     TextArea textAreaCore;
+
+    @FXML
+    TextField textRoomId;
     @Autowired
     private ClientServer clientServer;
 
@@ -57,5 +63,25 @@ public class ClientController implements Initializable {
             textFieldNick.setText(user.getNick());
             textAreaCore.appendText(user.getNick() + "[" + user.getUserId() + "]登录成功!\n");
         });
+    }
+
+    public void createGameRoom() {
+        CSCreateGameChatMessage message = new CSCreateGameChatMessage();
+        clientServer.getChannel().writeAndFlush(message);
+    }
+
+    public void loginRoom(SCEntryGameChatMessage message) {
+        Platform.runLater(() -> {
+            User user = message.getUser();
+            //textFieldNick.setText(user.getNick());
+            textAreaCore.appendText(user.getNick() + "[" + user.getUserId() + "]进入game房间!\n");
+        });
+    }
+
+    public void joinRoom() {
+        CSJoinRoomMessage message = new CSJoinRoomMessage();
+        int roomId = Integer.parseInt(textRoomId.getText());
+        message.setRoomId(roomId+"");
+        clientServer.getChannel().writeAndFlush(message);
     }
 }

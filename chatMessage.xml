@@ -4,7 +4,7 @@
     <import path="chatBean.xml"></import>
 
     <message id="102" type="CS" name="JoinRoom">
-        <field type="long" name="roomId"></field>
+        <field type="String" name="roomId"></field>
     </message>
 
     <message id="104" type="SC" name="UserDiamondChange">

@@ -11,8 +11,8 @@
         <Console name="Console" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
-        <RollingFile name="ROLLING" fileName="/data/logs/chat/server.log"
-                     filePattern="log.%d{yyyy-MM-dd}_%i.log">
+        <RollingFile name="ROLLING" fileName="/data/logs/chat/game/game.log"
+                     filePattern="/data/logs/chat/game/game.%d{yyyy-MM-dd}_%i.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy modulate="true" interval="24"/>

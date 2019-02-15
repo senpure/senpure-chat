@@ -30,7 +30,9 @@ public class RoomMessage {
 
         SCEntryGameChatMessage message = new SCEntryGameChatMessage();
         message.setUser(RoomService.convert(player));
+
         List<Long> userIds = new ArrayList<>(room.getPlayers().keySet());
+
         gatewayManager.sendMessage2Gateway(userIds, message);
 
     }

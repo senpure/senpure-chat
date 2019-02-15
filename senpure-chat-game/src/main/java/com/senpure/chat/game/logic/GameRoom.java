@@ -1,6 +1,8 @@
 package com.senpure.chat.game.logic;
 
 import com.senpure.io.server.GatewayManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class GameRoom {
 
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private int roomId;
 
     private RoomMessage message;
@@ -29,6 +31,8 @@ public class GameRoom {
 
     public void  playerEntryRoom(Player player) {
         players.put(player.getId(), player);
+        logger.debug("{} 进入房间  {}", player.getId(), roomId);
+        logger.info("players.size {}",players.size());
         message.sendPlayerEntryRoomMessage(player);
     }
 
@@ -40,7 +44,7 @@ public class GameRoom {
 
     public void  playerExitRoom(Player player) {
         players.remove(player.getId());
-        message.sendPlayerEntryRoomMessage(player);
+        message.sendPlayerExitRoomMessage(player);
     }
 
 

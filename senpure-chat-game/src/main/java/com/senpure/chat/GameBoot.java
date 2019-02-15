@@ -15,6 +15,6 @@ public class GameBoot {
 
         SpringApplication.run(GameBoot.class, args);
 
-        Thread.sleep(500000000);
+
     }
 }

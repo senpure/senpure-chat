@@ -4,6 +4,7 @@ import com.senpure.io.IOServerProperties;
 import com.senpure.io.RealityMessageHandlerUtil;
 import com.senpure.io.bean.HandleMessage;
 import com.senpure.io.handler.CSRelationUserGatewayMessageHandler;
+import com.senpure.io.handler.RealityMessageHandler;
 import com.senpure.io.message.SCRegServerHandleMessageMessage;
 import com.senpure.io.message.Server2GatewayMessage;
 import com.senpure.io.server.GatewayManager;
@@ -109,7 +110,9 @@ public class ServerConfiguration {
             for (Integer id : ids) {
                 HandleMessage handleMessage = new HandleMessage();
                 handleMessage.setHandleMessageId(id);
-
+                RealityMessageHandler handler=RealityMessageHandlerUtil.getHandler(id);
+                handleMessage.setDirect(handler.direct());
+                handleMessage.setServerShare(handler.serverShare());
                 handleMessage.setMessageClasses( RealityMessageHandlerUtil.getEmptyMessage(id).getClass().getName());
                 handleMessages.add(handleMessage);
             }

@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 
 /**
  * @author senpure
- * @time 2018-12-28 10:54:29
+ * @time 2019-2-15 15:05:55
  */
 public class User extends  Bean {
     //用户id

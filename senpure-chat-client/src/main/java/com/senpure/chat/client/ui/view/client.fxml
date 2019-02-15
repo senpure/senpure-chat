@@ -14,9 +14,9 @@
             <TextField fx:id="textFieldNick" layoutX="66.0" layoutY="38.0" prefHeight="28.0" prefWidth="222.0" />
             <Button layoutX="446.0" layoutY="38.0" mnemonicParsing="false" onAction="#login" prefHeight="28.0" prefWidth="105.0" text="登录" />
             <Button layoutX="66.0" layoutY="86.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="93.0" text="创建自由聊天" />
-            <Button layoutX="177.0" layoutY="86.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="93.0" text="创建游戏聊天" />
-            <TextField layoutX="288.0" layoutY="86.0" />
-            <Button layoutX="446.0" layoutY="86.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="105.0" text="加入" />
+            <Button layoutX="177.0" layoutY="86.0" mnemonicParsing="false" onAction="#createGameRoom" prefHeight="23.0" prefWidth="93.0" text="创建游戏聊天" />
+            <TextField fx:id="textRoomId" layoutX="288.0" layoutY="86.0" />
+            <Button layoutX="446.0" layoutY="86.0" mnemonicParsing="false" onAction="#joinRoom" prefHeight="23.0" prefWidth="105.0" text="加入" />
          </children>
       </Pane>
       <Pane prefHeight="315.0" prefWidth="598.0">

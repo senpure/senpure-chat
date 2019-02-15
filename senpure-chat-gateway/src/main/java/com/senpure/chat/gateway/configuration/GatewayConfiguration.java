@@ -35,6 +35,9 @@ public class GatewayConfiguration {
     @Bean
     public GatewayMessageExecuter gatewayMessageExecuter() {
         GatewayMessageExecuter messageExecuter = new GatewayMessageExecuter();
+        messageExecuter.setScLoginMessageId(1000101);
+        messageExecuter.setCsLoginMessageId(1000100);
+        messageExecuter.report();
         return messageExecuter;
     }
 
@@ -50,9 +53,7 @@ public class GatewayConfiguration {
             return gatewayAndClientServer;
         } else {
             gatewayMessageExecuter.releaseAndTryShutdownService();
-
         }
-
         return null;
     }
 
@@ -61,7 +62,6 @@ public class GatewayConfiguration {
         GatewayAndServerServer gatewayAndServerServer = new GatewayAndServerServer();
         gatewayAndServerServer.setProperties(ioServerProperties);
         GatewayMessageExecuter gatewayMessageExecuter = gatewayMessageExecuter();
-        gatewayMessageExecuter.setScLoginMessageId(100010);
         gatewayMessageExecuter.retainService();
         gatewayAndServerServer.setMessageExecuter(gatewayMessageExecuter);
         if (gatewayAndServerServer.start()) {

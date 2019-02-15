@@ -5,19 +5,21 @@ import io.netty.buffer.ByteBuf;
 
 /**
  * @author senpure
- * @time 2018-12-28 10:57:04
+ * @time 2019-2-15 15:05:55
  */
 public class CSJoinRoomMessage extends  Message {
 
     public static final int MESSAGE_ID = 2000102;
-    private long roomId;
+    private String roomId;
     /**
      * 写入字节缓存
      */
     @Override
     public void write(ByteBuf buf){
         getSerializedSize();
-        writeVar64(buf,8,roomId);
+        if (roomId != null){
+            writeString(buf,8,roomId);
+        }
     }
 
     /**
@@ -31,7 +33,7 @@ public class CSJoinRoomMessage extends  Message {
                 case 0://end
                 return;
                 case 8:// 1 << 3 | 0
-                        roomId = readVar64(buf);
+                        roomId = readString(buf);
                     break;
                 default://skip
                     skip(buf, tag);
@@ -49,16 +51,18 @@ public class CSJoinRoomMessage extends  Message {
             return size;
         }
         size = 0 ;
-        size += computeVar64Size(1,roomId);
+        if (roomId != null){
+            size += computeStringSize(1,roomId);
+        }
         serializedSize = size ;
         return size ;
     }
 
-    public  long getRoomId() {
+    public  String getRoomId() {
         return roomId;
     }
 
-    public CSJoinRoomMessage setRoomId(long roomId) {
+    public CSJoinRoomMessage setRoomId(String roomId) {
         this.roomId=roomId;
         return this;
     }
