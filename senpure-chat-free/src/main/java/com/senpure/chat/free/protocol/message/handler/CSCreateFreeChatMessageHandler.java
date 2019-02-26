@@ -1,8 +1,12 @@
-package com.senpure.chat.free.protocol.handler;
+package com.senpure.chat.free.protocol.message.handler;
 
+import com.senpure.chat.free.logic.GameRoom;
+import com.senpure.chat.free.logic.Player;
+import com.senpure.chat.free.logic.RoomManager;
 import com.senpure.chat.free.protocol.message.CSCreateFreeChatMessage;
 import com.senpure.io.handler.AbstractRealityMessageHandler;
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,10 +15,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CSCreateFreeChatMessageHandler extends AbstractRealityMessageHandler<CSCreateFreeChatMessage> {
-
+    @Autowired
+    private RoomManager roomManager;
     @Override
     public void execute(Channel channel, long token, long userId, CSCreateFreeChatMessage message) {
-        //TODO 请在这里写下你的代码
+        GameRoom room = roomManager.createRoom();
+
+        Player player = new Player();
+        player.setId(userId);
+        room.playerEntryRoom(player);
 
     }
 

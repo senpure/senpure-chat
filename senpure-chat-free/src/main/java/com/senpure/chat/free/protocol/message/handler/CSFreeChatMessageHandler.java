@@ -1,4 +1,4 @@
-package com.senpure.chat.free.protocol.handler;
+package com.senpure.chat.free.protocol.message.handler;
 
 import com.senpure.chat.free.protocol.message.CSFreeChatMessage;
 import com.senpure.io.handler.AbstractRealityMessageHandler;

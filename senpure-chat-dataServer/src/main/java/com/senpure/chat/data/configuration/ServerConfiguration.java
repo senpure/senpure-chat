@@ -3,29 +3,38 @@ package com.senpure.chat.data.configuration;
 import com.senpure.io.IOServerProperties;
 import com.senpure.io.RealityMessageHandlerUtil;
 import com.senpure.io.bean.HandleMessage;
+import com.senpure.io.bean.IdName;
 import com.senpure.io.handler.CSRelationUserGatewayMessageHandler;
 import com.senpure.io.handler.RealityMessageHandler;
+import com.senpure.io.message.SCIdNameMessage;
 import com.senpure.io.message.SCRegServerHandleMessageMessage;
 import com.senpure.io.message.Server2GatewayMessage;
+import com.senpure.io.protocol.Message;
 import com.senpure.io.server.GatewayManager;
 import com.senpure.io.server.RealityMessageExecuter;
 import com.senpure.io.server.RealityServer;
+import com.senpure.io.support.MessageScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.type.filter.TypeFilter;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.net.ssl.SSLException;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * ServerConfiguration
@@ -48,8 +57,6 @@ public class ServerConfiguration {
         CSRelationUserGatewayMessageHandler handler = new CSRelationUserGatewayMessageHandler();
         return handler;
     }
-
-
 
 
     @Bean
@@ -81,7 +88,7 @@ public class ServerConfiguration {
             boolean start = realityServer.start(host, port);
             if (start) {
                 servers.add(realityServer);
-               // Channel channel=realityServer.getChannel();
+                // Channel channel=realityServer.getChannel();
 
             }
 
@@ -110,17 +117,17 @@ public class ServerConfiguration {
             for (Integer id : ids) {
                 HandleMessage handleMessage = new HandleMessage();
                 handleMessage.setHandleMessageId(id);
-                RealityMessageHandler handler=RealityMessageHandlerUtil.getHandler(id);
+                RealityMessageHandler handler = RealityMessageHandlerUtil.getHandler(id);
                 handleMessage.setDirect(handler.direct());
                 handleMessage.setServerShare(handler.serverShare());
-                handleMessage.setMessageClasses( RealityMessageHandlerUtil.getEmptyMessage(id).getClass().getName());
+                handleMessage.setMessageClasses(RealityMessageHandlerUtil.getEmptyMessage(id).getClass().getName());
                 handleMessages.add(handleMessage);
             }
             for (RealityServer server : servers) {
                 SCRegServerHandleMessageMessage message = new SCRegServerHandleMessageMessage();
                 message.setServerName(server.getServerName());
                 message.setReadableServerName(server.getReadableServerName());
-                InetSocketAddress address = (InetSocketAddress)server.getChannel().localAddress();
+                InetSocketAddress address = (InetSocketAddress) server.getChannel().localAddress();
                 String ipAndPort = address.getAddress().getHostAddress() + ":" + server.getFirstPort();
                 message.setIpAndFirstPort(ipAndPort);
                 message.setMessages(handleMessages);
@@ -133,19 +140,39 @@ public class ServerConfiguration {
                 server.getChannel().writeAndFlush(gatewayMessage);
             }
 
-
+            idName();
         }
     }
 
-    public static void main(String[] args) {
-        Server2GatewayMessage gatewayMessage = new Server2GatewayMessage();
-        gatewayMessage.setMessageId(11);
-      //  gatewayMessage.setMessage(message);
-        Long[] userids = new Long[1];
-        userids[0] = 1L;
-        gatewayMessage.setUserIds(userids);
+    private void idName() {
+        List<IdName> idNames = MessageScanner.scan("com.senpure.chat");
+        SCIdNameMessage message = new SCIdNameMessage();
+        for (IdName idName : idNames) {
+            message.getIdNames().add(idName);
+        }
+        gatewayManager().sendMessage2EveryOne(message);
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+
+        ClassPathScanningCandidateComponentProvider scan =
+                new ClassPathScanningCandidateComponentProvider(true);
+
+        TypeFilter typeFilter = (metadataReader, metadataReaderFactory) -> Message.class.getName().equals(metadataReader.getClassMetadata().getSuperClassName());
+        scan.addIncludeFilter(typeFilter);
+        Set<BeanDefinition> definitions = scan.findCandidateComponents("com.senpure.io");
+
+        SCIdNameMessage idNameMessage = new SCIdNameMessage();
+        for (BeanDefinition definition : definitions) {
+
+            Message message = (Message) Class.forName(definition.getBeanClassName()).newInstance();
+            IdName idName = new IdName();
+            idName.setId(message.getMessageId());
+            idName.setMessageName(message.getClass().getSimpleName());
+            idNameMessage.getIdNames().add(idName);
+        }
+        System.out.println(idNameMessage.toString(null));
 
 
-        System.out.println(gatewayMessage);
     }
 }

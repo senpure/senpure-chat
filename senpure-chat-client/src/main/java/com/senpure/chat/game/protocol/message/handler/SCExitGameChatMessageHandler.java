@@ -1,8 +1,10 @@
 package com.senpure.chat.game.protocol.message.handler;
 
+import com.senpure.chat.client.ui.view.ClientController;
 import com.senpure.chat.game.protocol.message.SCExitGameChatMessage;
 import com.senpure.io.handler.AbstractMessageHandler;
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,10 +13,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SCExitGameChatMessageHandler extends AbstractMessageHandler<SCExitGameChatMessage> {
-
+    @Autowired
+    private ClientController clientController;
     @Override
     public void execute(Channel channel, SCExitGameChatMessage message) {
-        //TODO 请在这里写下你的代码
+
+
 
     }
 

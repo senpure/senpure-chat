@@ -64,7 +64,7 @@ public class UserService {
     public void logout(long userId) {
         User user = userIdMap.remove(userId);
         if (user != null) {
-            userStrMap.remove(user.getStrId());
+           // userStrMap.remove(user.getStrId());
             UserLogoutEvent event = new UserLogoutEvent();
             event.setLoginTime(user.getLoginTime());
             event.setLogoutTime(System.currentTimeMillis());

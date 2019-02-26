@@ -4,6 +4,7 @@ import com.senpure.base.util.NameThreadFactory;
 import com.senpure.io.ClientServer;
 import com.senpure.io.IOServerProperties;
 import com.senpure.io.MessageHandlerUtil;
+import com.senpure.io.handler.SCInnerErrorMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,12 @@ public class ClientConfiguration {
     private ClientServer clientServer;
 
     private ScheduledExecutorService service;
+
+
+   // @Bean
+    public SCInnerErrorMessageHandler innerErrorMessageHandler() {
+        return new SCInnerErrorMessageHandler();
+    }
 
     @Bean
     public ClientServer start() throws CertificateException, SSLException {

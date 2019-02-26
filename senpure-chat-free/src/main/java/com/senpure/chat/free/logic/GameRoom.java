@@ -1,4 +1,4 @@
-package com.senpure.chat.game.logic;
+package com.senpure.chat.free.logic;
 
 import com.senpure.io.server.GatewayManager;
 import org.slf4j.Logger;
@@ -21,36 +21,39 @@ public class GameRoom {
     private RoomMessage message;
     private Map<Long, Player> players = new ConcurrentHashMap<>();
 
-    private RoomManager roomManager;
-
-    public GameRoom(int roomId, GatewayManager gatewayManager, RoomManager roomManager) {
+    public GameRoom(int roomId, GatewayManager gatewayManager) {
         this.roomId = roomId;
-        message = new RoomMessage(this, gatewayManager);
-        this.roomManager = roomManager;
+        message = new RoomMessage(this,gatewayManager);
     }
 
 
-    public void playerEntryRoom(Player player) {
+
+
+    public void  playerEntryRoom(Player player) {
         players.put(player.getId(), player);
-        roomManager.markPlayerRoom(player.getId(), this);
         logger.debug("{} 进入房间  {}", player.getId(), roomId);
-        logger.info("players.size {}", players.size());
+        logger.info("players.size {}",players.size());
         message.sendPlayerEntryRoomMessage(player);
     }
 
 
-    public void playerChat(Player player, String type, String content) {
-        message.sendPlayerChatMessage(player, type, content);
+    public void  playerChat(Player player,String type,String content) {
+        message.sendPlayerChatMessage(player,type,content);
     }
 
 
-    public void playerExitRoom(Long playerId) {
-        Player player = players.remove(playerId);
-        if (player != null) {
-            message.sendPlayerExitRoomMessage(player);
-        }
-
+    public void  playerExitRoom(Player player) {
+        players.remove(player.getId());
+        message.sendPlayerExitRoomMessage(player);
     }
+
+
+
+
+
+
+
+
 
 
     public Map<Long, Player> getPlayers() {

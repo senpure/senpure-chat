@@ -1,4 +1,4 @@
-package com.senpure.chat.game.service;
+package com.senpure.chat.free.service;
 
 import com.senpure.chat.game.logic.Player;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlayerServer {
 
-    public Player findPlayer(long userId) {
+    public Player findPlayer(long userId)
+    {
 
         Player player = new Player();
         player.setId(userId);
         player.setDiamond(500);
-        player.setNick("jia-nick" + userId);
+        player.setNick("jia-nick"+userId);
         return player;
     }
 }

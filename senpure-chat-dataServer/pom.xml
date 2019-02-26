@@ -26,6 +26,7 @@
             <groupId>com.senpure</groupId>
             <artifactId>senpure-code-generator</artifactId>
             <version>${senpure.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

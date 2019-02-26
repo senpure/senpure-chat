@@ -28,12 +28,12 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="107.0" prefWidth="455.0">
                <children>
-                  <TextArea layoutX="25.0" layoutY="14.0" prefHeight="88.0" prefWidth="405.0" />
+                  <TextArea fx:id="textAreaSend" layoutX="25.0" layoutY="14.0" prefHeight="88.0" prefWidth="405.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="105.0" prefWidth="116.0">
                <children>
-                  <Button layoutX="20.0" layoutY="25.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="83.0" text="发送" />
+                  <Button layoutX="20.0" layoutY="25.0" mnemonicParsing="false" onAction="#sendChatMessage" prefHeight="55.0" prefWidth="83.0" text="发送" />
                </children>
             </AnchorPane>
         </items>
