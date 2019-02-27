@@ -1,6 +1,7 @@
 package com.senpure.chat.free.service;
 
-import com.senpure.chat.game.logic.Player;
+
+import com.senpure.chat.free.logic.Player;
 import org.springframework.stereotype.Service;
 
 /**

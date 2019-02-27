@@ -13,7 +13,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
  * @author senpure
  * @time 2018-11-09 15:11:24
  */
-@EnableBinding({SinkLogin.class, SinkLogin.class})
+@EnableBinding({SinkLogin.class})
 public class EventReceiver {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

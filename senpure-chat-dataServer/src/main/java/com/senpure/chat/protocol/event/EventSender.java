@@ -3,6 +3,8 @@ package com.senpure.chat.protocol.event;
 import com.senpure.io.event.EventHelper;
 import com.senpure.io.event.SourceLogin;
 import com.senpure.io.event.SourceLogout;
+import com.senpure.io.message.CSRelationUserGatewayMessage;
+import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,4 +45,12 @@ public class EventSender {
         diamondChange.output().send(MessageBuilder.withPayload(EventHelper.write(event)).build());
     }
 
+    public static void main(String[] args) {
+        CSRelationUserGatewayMessage message = new CSRelationUserGatewayMessage();
+        message.setToken(RandomUtils.nextLong(1000000000000L, 9999999999999L));
+        message.setUserId(500);
+        message.setRelationToken(RandomUtils.nextLong(1000000000000L, 9999999999999L));
+
+        System.out.println(message.getSerializedSize());
+    }
 }

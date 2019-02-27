@@ -9,22 +9,22 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author senpure
- * @time      2018-12-28 10:54:29
+ * @time 2018-12-28 10:54:29
  */
 @Component
 public class SCExitGameChatMessageHandler extends AbstractMessageHandler<SCExitGameChatMessage> {
     @Autowired
     private ClientController clientController;
+
     @Override
     public void execute(Channel channel, SCExitGameChatMessage message) {
 
-
-
+        clientController.exitRoom(message);
     }
 
     @Override
     public int handlerId() {
-               // 2018-12-28 10:54:29 4000202
+        // 2018-12-28 10:54:29 4000202
         return SCExitGameChatMessage.MESSAGE_ID;
     }
 

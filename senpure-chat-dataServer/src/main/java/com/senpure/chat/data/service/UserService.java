@@ -68,7 +68,7 @@ public class UserService {
             UserLogoutEvent event = new UserLogoutEvent();
             event.setLoginTime(user.getLoginTime());
             event.setLogoutTime(System.currentTimeMillis());
-            event.setUser(new com.senpure.chat.protocol.bean.User());
+            event.setUser(convert(user));
             eventSender.send(event);
         }
     }

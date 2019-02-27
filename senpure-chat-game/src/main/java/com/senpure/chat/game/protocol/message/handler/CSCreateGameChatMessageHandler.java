@@ -4,6 +4,7 @@ import com.senpure.chat.game.logic.GameRoom;
 import com.senpure.chat.game.logic.Player;
 import com.senpure.chat.game.logic.RoomManager;
 import com.senpure.chat.game.protocol.message.CSCreateGameChatMessage;
+import com.senpure.chat.game.service.PlayerServer;
 import com.senpure.io.handler.AbstractRealityMessageHandler;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +19,14 @@ public class CSCreateGameChatMessageHandler extends AbstractRealityMessageHandle
 
     @Autowired
     private RoomManager roomManager;
+    @Autowired
+    private PlayerServer playerServer;
 
     @Override
     public void execute(Channel channel, long token, long userId, CSCreateGameChatMessage message) {
-
         GameRoom room = roomManager.createRoom();
-
-        Player player = new Player();
-        player.setId(userId);
+        Player player = playerServer.findPlayer(userId);
         room.playerEntryRoom(player);
-
     }
 
     @Override

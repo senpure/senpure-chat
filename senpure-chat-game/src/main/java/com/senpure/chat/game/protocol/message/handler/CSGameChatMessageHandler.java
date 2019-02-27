@@ -24,13 +24,11 @@ public class CSGameChatMessageHandler extends AbstractRealityMessageHandler<CSGa
 
     @Override
     public void execute(Channel channel, long token, long userId, CSGameChatMessage message) {
-
         GameRoom gameRoom = roomManager.getPlayerRoom(userId);
         if (gameRoom != null) {
             Player player = playerServer.findPlayer(userId);
             gameRoom.playerChat(player,"game", message.getContent());
         }
-
     }
 
     @Override

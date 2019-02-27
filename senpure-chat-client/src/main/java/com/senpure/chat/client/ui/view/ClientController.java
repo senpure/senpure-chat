@@ -14,6 +14,7 @@ import com.senpure.chat.protocol.bean.User;
 import com.senpure.chat.protocol.message.CSJoinRoomMessage;
 import com.senpure.io.ClientServer;
 import de.felixroske.jfxsupport.FXMLController;
+import de.felixroske.jfxsupport.GUIState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,6 +48,8 @@ public class ClientController implements Initializable {
     private ClientServer clientServer;
 
 
+    @Autowired
+    private ClientView clientView;
     private int position = 0;
     private long playerId = 0;
 
@@ -65,6 +68,7 @@ public class ClientController implements Initializable {
         loginMessage.setId(strId);
         loginMessage.setNick(textFieldNick.getText());
         clientServer.getChannel().writeAndFlush(loginMessage);
+
     }
 
     public void loginSuccess(SCUserLoginMessage message) {
@@ -74,6 +78,8 @@ public class ClientController implements Initializable {
             User user = message.getUser();
             textFieldNick.setText(user.getNick());
             textAreaCore.appendText(user.getNick() + "[" + user.getUserId() + "]登录成功!\n");
+            GUIState.getStage().setTitle(user.getNick());
+            GUIState.setTitle("|" + user.getNick() + "|");
         });
     }
 
