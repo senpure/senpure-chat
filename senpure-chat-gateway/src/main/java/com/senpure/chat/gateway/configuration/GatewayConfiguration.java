@@ -8,7 +8,6 @@ import com.senpure.io.gateway.GatewayMessageExecuter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PreDestroy;
 import javax.net.ssl.SSLException;
@@ -20,7 +19,7 @@ import java.security.cert.CertificateException;
  * @author senpure
  * @time 2018-10-22 09:57:20
  */
-@Configuration
+
 @EnableConfigurationProperties(IOServerProperties.class)
 public class GatewayConfiguration {
 
@@ -44,7 +43,7 @@ public class GatewayConfiguration {
     @Bean
     public GatewayAndClientServer gatewayAndClientServer() throws CertificateException, SSLException {
         GatewayAndClientServer gatewayAndClientServer = new GatewayAndClientServer();
-        gatewayAndClientServer.setProperties(ioServerProperties);
+       // gatewayAndClientServer.setProperties(ioServerProperties);
         GatewayMessageExecuter gatewayMessageExecuter = gatewayMessageExecuter();
         gatewayMessageExecuter.retainService();
         gatewayAndClientServer.setMessageExecuter(gatewayMessageExecuter);
@@ -60,7 +59,7 @@ public class GatewayConfiguration {
     @Bean
     public GatewayAndServerServer gatewayAndServerServer() throws CertificateException, SSLException {
         GatewayAndServerServer gatewayAndServerServer = new GatewayAndServerServer();
-        gatewayAndServerServer.setProperties(ioServerProperties);
+        //gatewayAndServerServer.setProperties(ioServerProperties);
         GatewayMessageExecuter gatewayMessageExecuter = gatewayMessageExecuter();
         gatewayMessageExecuter.retainService();
         gatewayAndServerServer.setMessageExecuter(gatewayMessageExecuter);
