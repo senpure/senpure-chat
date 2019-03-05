@@ -4,9 +4,6 @@ import com.senpure.io.IOServerProperties;
 import com.senpure.io.RealityMessageHandlerUtil;
 import com.senpure.io.bean.HandleMessage;
 import com.senpure.io.event.EventHelper;
-import com.senpure.io.handler.CSAskHandleMessageHandler;
-import com.senpure.io.handler.CSBreakUserGatewayMessageHandler;
-import com.senpure.io.handler.CSRelationUserGatewayMessageHandler;
 import com.senpure.io.handler.RealityMessageHandler;
 import com.senpure.io.message.SCRegServerHandleMessageMessage;
 import com.senpure.io.message.Server2GatewayMessage;
@@ -19,11 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.net.ssl.SSLException;
 import java.net.InetSocketAddress;
 import java.security.cert.CertificateException;
@@ -46,40 +40,24 @@ public class GameConfiguration {
     private IOServerProperties properties;
     private List<RealityServer> servers = new ArrayList<>();
 
-    @PostConstruct
+    @Autowired
+    private GatewayManager gatewayManager;
+
+   // @PostConstruct
     public void init() {
         EventHelper.setService(Executors.newSingleThreadScheduledExecutor());
     }
 
-    @Bean
-    public CSRelationUserGatewayMessageHandler csRelationUserGatewayMessageHandler() {
-        return new CSRelationUserGatewayMessageHandler();
-    }
-
-    @Bean
-    public CSBreakUserGatewayMessageHandler csBreakUserGatewayMessageHandler() {
-        return new CSBreakUserGatewayMessageHandler();
-    }
-
-    @Bean
-    public CSAskHandleMessageHandler csAskHandleMessageHandler(){
-        return new CSAskHandleMessageHandler();
-    }
 
 
-    @Bean
-    public GatewayManager gatewayManager() {
-        GatewayManager gatewayManager = new GatewayManager();
-        return gatewayManager;
-    }
 
-    @Bean
+    //@Bean
     public RealityMessageExecuter realityMessageExecuter() {
         RealityMessageExecuter realityMessageExecuter = new RealityMessageExecuter();
         return realityMessageExecuter;
     }
 
-    @PostConstruct
+   // @PostConstruct
     public void start() throws SSLException, CertificateException {
 
         String[] temp = properties.getGatewayAddress().split(",");
@@ -88,9 +66,9 @@ public class GameConfiguration {
             String host = oneAddressTemp[0];
             int port = Integer.parseInt(oneAddressTemp[1]);
             RealityServer realityServer = new RealityServer();
-            realityServer.setProperties(properties);
+           // realityServer.setProperties(properties);
             realityServer.setServerName("chatGameServer");
-            realityServer.setGatewayManager(gatewayManager());
+            realityServer.setGatewayManager(gatewayManager);
             realityServer.setMessageExecuter(realityMessageExecuter());
 
             boolean start = realityServer.start(host, port);
@@ -103,14 +81,14 @@ public class GameConfiguration {
         }
     }
 
-    @PreDestroy
+   // @PreDestroy
     public void destroy() {
         for (RealityServer server : servers) {
             server.destroy();
         }
     }
 
-    @Bean
+   // @Bean
     public RegServerToGateway regServerToGateway() {
         return new RegServerToGateway();
     }
@@ -125,19 +103,19 @@ public class GameConfiguration {
             for (Integer id : ids) {
                 HandleMessage handleMessage = new HandleMessage();
                 handleMessage.setHandleMessageId(id);
-                RealityMessageHandler handler=RealityMessageHandlerUtil.getHandler(id);
+                RealityMessageHandler handler = RealityMessageHandlerUtil.getHandler(id);
                 handleMessage.setDirect(handler.direct());
                 handleMessage.setServerShare(handler.serverShare());
-                handleMessage.setMessageClasses( RealityMessageHandlerUtil.getEmptyMessage(id).getClass().getName());
+                handleMessage.setMessageClasses(RealityMessageHandlerUtil.getEmptyMessage(id).getClass().getName());
                 handleMessages.add(handleMessage);
             }
             for (RealityServer server : servers) {
                 SCRegServerHandleMessageMessage message = new SCRegServerHandleMessageMessage();
                 message.setServerName(server.getServerName());
                 message.setReadableServerName(server.getReadableServerName());
-                InetSocketAddress address = (InetSocketAddress)server.getChannel().localAddress();
-                String ipAndPort = address.getAddress().getHostAddress() + ":" + server.getFirstPort();
-                message.setIpAndFirstPort(ipAndPort);
+                InetSocketAddress address = (InetSocketAddress) server.getChannel().localAddress();
+              //  String ipAndPort = address.getAddress().getHostAddress() + ":" + server.getFirstPort();
+              //  message.setIpAndFirstPort(ipAndPort);
                 message.setMessages(handleMessages);
                 Server2GatewayMessage gatewayMessage = new Server2GatewayMessage();
                 gatewayMessage.setMessageId(message.getMessageId());
