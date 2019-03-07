@@ -1,7 +1,9 @@
 package com.senpure.chat.data.service;
 
 
+import com.senpure.base.util.JacksonUtil;
 import com.senpure.chat.data.model.User;
+import com.senpure.chat.data.result.UserRecordResult;
 import com.senpure.chat.protocol.event.EventSender;
 import com.senpure.chat.protocol.event.UserDiamondChangeEvent;
 import com.senpure.chat.protocol.event.UserLoginEvent;
@@ -28,9 +30,16 @@ public class UserService {
     private AtomicLong idGenerator = new AtomicLong(100000);
 
 
-
     private Map<String, User> userStrMap = new ConcurrentHashMap<>();
     private Map<Long, User> userIdMap = new ConcurrentHashMap<>();
+
+    public User findUser(long id) {
+        User user = userIdMap.get(id);
+        if (user == null && id < 10000) {
+            return login("12346", "");
+        }
+        return userIdMap.get(id);
+    }
 
     public User login(String id, String nick) {
         User user = userStrMap.get(id);
@@ -39,7 +48,7 @@ public class UserService {
             user.setId(idGenerator.getAndIncrement());
             user.setStrId(id);
             user.setDiamond(0L);
-            if (nick == null || nick.length() == 0||nick.startsWith("游客")) {
+            if (nick == null || nick.length() == 0 || nick.startsWith("游客")) {
                 user.setNick("游客" + user.getId());
             } else {
                 user.setNick(nick);
@@ -64,7 +73,7 @@ public class UserService {
     public void logout(long userId) {
         User user = userIdMap.remove(userId);
         if (user != null) {
-           // userStrMap.remove(user.getStrId());
+            // userStrMap.remove(user.getStrId());
             UserLogoutEvent event = new UserLogoutEvent();
             event.setLoginTime(user.getLoginTime());
             event.setLogoutTime(System.currentTimeMillis());
@@ -104,6 +113,16 @@ public class UserService {
         event.setUser(u);
         eventSender.send(event);
 
+    }
+
+    public static void main(String[] args) {
+
+        String str="{\"code\":1,\"user\":{\"diamond\":500,\"id\":100002,\"loginDate\":1551863302799,\"loginTime\":1551863302799,\"nick\":\"游客100002\",\"strId\":\"ca63533523741845550988f2b9d5751d137ca\"}}";
+
+
+        UserRecordResult userRecordResult = JacksonUtil.parseObject(str, UserRecordResult.class);
+
+        System.out.println(userRecordResult.getCode()+""+userRecordResult.toString());
     }
 
 }

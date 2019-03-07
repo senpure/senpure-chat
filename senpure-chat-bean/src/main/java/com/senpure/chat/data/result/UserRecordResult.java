@@ -40,9 +40,13 @@ public class UserRecordResult extends ActionResult {
         return new UserRecordResult(code);
     }
 
+    public UserRecordResult() {
+    }
+
     public UserRecordResult(int code) {
         super(code);
     }
+
 
     public User getUser() {
         return user;

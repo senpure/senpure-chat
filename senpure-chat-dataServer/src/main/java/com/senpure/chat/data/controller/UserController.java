@@ -4,6 +4,7 @@ import com.senpure.base.result.ActionResult;
 import com.senpure.base.result.ResultMap;
 import com.senpure.base.spring.BaseController;
 import com.senpure.chat.data.criteria.ChangeDiamondCriteria;
+import com.senpure.chat.data.model.User;
 import com.senpure.chat.data.result.UserRecordResult;
 import com.senpure.chat.data.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -50,19 +51,16 @@ public class UserController extends BaseController {
     }
 
 
-    @GetMapping("user/{id}")
+    @GetMapping(value = "user/{id}")
     @ResponseBody
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", paramType = "path",dataType = "long")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", paramType = "path", dataType = "long")})
     @ApiResponses(@ApiResponse(code = 200, message = "OK", response = UserRecordResult.class))
-    public ResultMap readUser(HttpServletRequest request, @PathVariable  Long id) {
-        Long numberId;
-        try {
-            numberId = Long.valueOf(id);
-        } catch (NumberFormatException e) {
-            logger.error("输入转换失败", e);
-            return wrapMessage(request, ResultMap.notExist(), id);
+    public ResultMap readUser(HttpServletRequest request, @PathVariable Long id) {
+        User user = userService.findUser(id);
+        if (user == null) {
+            return wrapMessage(request, ResultMap.notExist(), id.toString());
         }
-        return ResultMap.success();
+        return ResultMap.success().putItem("user", user);
     }
 
 }

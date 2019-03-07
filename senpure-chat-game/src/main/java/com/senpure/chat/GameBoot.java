@@ -4,6 +4,7 @@ import com.senpure.io.support.annotation.EnableProducer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * GameBoot
@@ -14,6 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableProducer
+@EnableFeignClients
 public class GameBoot {
     public static void main(String[] args) throws InterruptedException {
 

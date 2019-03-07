@@ -4,6 +4,9 @@ import com.senpure.base.AppEvn;
 import com.senpure.base.result.Result;
 import com.senpure.base.result.ResultHelper;
 
+import java.text.MessageFormat;
+import java.util.Locale;
+
 /**
  * ResultTest
  *
@@ -16,9 +19,12 @@ public class ResultTest {
 
         AppEvn.markClassRootPath();
         ResultHelper.results.add(new Result());
-        ResultHelper resultHelper = new ResultHelper();
+        ResultHelper.syncResults();
 
-        resultHelper.onApplicationEvent(null);
         System.out.println(ResultHelper.getKey(1));
+
+        String str = MessageFormat.format(ResultHelper.getMessage(404, Locale.CHINA), 12345646+"");
+        System.out.println(str);
+        System.out.println(String.format(ResultHelper.getMessage(404, Locale.CHINA), 12345646)); ;
     }
 }

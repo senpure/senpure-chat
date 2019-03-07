@@ -20,10 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.type.filter.TypeFilter;
 
 import javax.annotation.PostConstruct;
@@ -42,8 +40,8 @@ import java.util.Set;
  * @author senpure
  * @time 2018-10-23 16:36:05
  */
-@Configuration
-@EnableConfigurationProperties(IOServerProperties.class)
+//@Configuration
+//@EnableConfigurationProperties(IOServerProperties.class)
 public class ServerConfiguration {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -80,7 +78,7 @@ public class ServerConfiguration {
             String host = oneAddressTemp[0];
             int port = Integer.parseInt(oneAddressTemp[1]);
             RealityServer realityServer = new RealityServer();
-            realityServer.setProperties(properties);
+            //realityServer.setProperties(properties);
             realityServer.setServerName("chatDataServer");
             realityServer.setGatewayManager(gatewayManager());
             realityServer.setMessageExecuter(realityMessageExecuter());
@@ -128,8 +126,8 @@ public class ServerConfiguration {
                 message.setServerName(server.getServerName());
                 message.setReadableServerName(server.getReadableServerName());
                 InetSocketAddress address = (InetSocketAddress) server.getChannel().localAddress();
-                String ipAndPort = address.getAddress().getHostAddress() + ":" + server.getFirstPort();
-                message.setIpAndFirstPort(ipAndPort);
+              //  String ipAndPort = address.getAddress().getHostAddress() + ":" + server.getFirstPort();
+               // message.setIpAndFirstPort(ipAndPort);
                 message.setMessages(handleMessages);
                 Server2GatewayMessage gatewayMessage = new Server2GatewayMessage();
                 gatewayMessage.setMessageId(message.getMessageId());
