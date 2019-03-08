@@ -26,7 +26,7 @@ public class CSUserLoginMessageHandler extends AbstractRealityMessageHandler<CSU
         if (user != null) {
             SCUserLoginMessage loginMessage = new SCUserLoginMessage();
             loginMessage.setUser(userService.convert(user));
-            gatewayManager.sendLoginMessage2Gateway(token,user.getId(),loginMessage);
+            gatewayManager.sendLoginSuccessMessage2Gateway(token,user.getId(),loginMessage);
         }
 
     }
