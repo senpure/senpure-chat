@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(value = "chat-data")
 public interface PlayerServerRemote {
-
     @GetMapping("user/{id}")
     public UserRecordResult readUser(@PathVariable("id") long id);
 

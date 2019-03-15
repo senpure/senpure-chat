@@ -25,14 +25,13 @@
         </RollingFile>
     </appenders>
     <loggers>
-        <!--actuator 注册信息
-        <logger name="org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping" level="trace"></logger>
-      -->
-        <logger name="org.eclipse" level="info"></logger>
-        <logger name="spring.web.readers.parameter.ModelAttributeParameterExpander" level="info"></logger>
-        <logger name="org.apache.kafka" level="info"></logger>
-        <logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="info"></logger>
-        <Root level="debug">
+
+        <logger name="com.senpure" level="debug"></logger>
+        <logger name="druid.sql" level="trace" additivity="false">
+            <AppenderRef ref="ConsoleSql"/>
+            <AppenderRef ref="ROLLING"/>
+        </logger>
+        <Root level="info">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="ROLLING"/>
         </Root>

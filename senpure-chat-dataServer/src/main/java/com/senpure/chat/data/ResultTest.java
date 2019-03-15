@@ -23,8 +23,8 @@ public class ResultTest {
 
         System.out.println(ResultHelper.getKey(1));
 
-        String str = MessageFormat.format(ResultHelper.getMessage(404, Locale.CHINA), 12345646+"");
+        String str = MessageFormat.format(ResultHelper.getMessage(404, Locale.CHINA), "/snowflake/dispatch2");
         System.out.println(str);
-        System.out.println(String.format(ResultHelper.getMessage(404, Locale.CHINA), 12345646)); ;
+
     }
 }
