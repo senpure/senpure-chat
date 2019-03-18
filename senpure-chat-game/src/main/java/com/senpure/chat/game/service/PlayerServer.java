@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * PlayerServer
  *
@@ -23,20 +26,23 @@ public class PlayerServer {
     @Autowired
     private PlayerServerRemote remote;
 
+    private Map<Long, Player> playerMap = new ConcurrentHashMap<>();
+
     public Player findPlayer(long userId) {
+        Player player = playerMap.get(userId);
+        if (player == null) {
+            UserRecordResult result = remote.readUser(userId);
+            if (result.getCode() == Result.SUCCESS) {
+                logger.info("{}", result.getUser());
+                User user = result.getUser();
+                player = new Player();
+                player.setId(user.getId());
+                player.setDiamond(user.getDiamond());
+                player.setNick(user.getNick());
+                playerMap.put(userId, player);
 
-        UserRecordResult result = remote.readUser(userId);
-        if (result.getCode() == Result.SUCCESS) {
-
-            logger.info("{}",result.getUser());
-            User user = result.getUser();
-
-            Player player = new Player();
-            player.setId(user.getId());
-            player.setDiamond(user.getDiamond());
-            player.setNick(user.getNick());
-            return player;
+            }
         }
-        return null;
+        return player;
     }
 }

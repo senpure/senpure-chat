@@ -30,6 +30,7 @@ public class RoomManager {
             roomId = RandomUtil.random(100000, 999999);
         }
         while (roomMap.get(roomId) != null);
+
         GameRoom room = new GameRoom(roomId, gatewayManager, roomManager);
         roomMap.put(roomId, room);
         return room;
