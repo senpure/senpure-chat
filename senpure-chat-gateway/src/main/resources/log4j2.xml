@@ -32,7 +32,8 @@
     <loggers>
 
         <logger name="com.senpure" level="debug"></logger>
-        <logger name="druid.sql" level="trace" additivity="false">
+        <logger name="io.netty.handler.logging" level="debug"></logger>
+        <logger name="druid.sql" level="debug" additivity="false">
             <AppenderRef ref="ConsoleSql"/>
             <AppenderRef ref="ROLLING"/>
         </logger>

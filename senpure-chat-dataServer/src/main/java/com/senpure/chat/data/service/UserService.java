@@ -1,9 +1,8 @@
 package com.senpure.chat.data.service;
 
 
-import com.senpure.base.util.JacksonUtil;
+
 import com.senpure.chat.data.model.User;
-import com.senpure.chat.data.result.UserRecordResult;
 import com.senpure.chat.protocol.event.EventSender;
 import com.senpure.chat.protocol.event.UserDiamondChangeEvent;
 import com.senpure.chat.protocol.event.UserLoginEvent;
@@ -120,9 +119,9 @@ public class UserService {
         String str="{\"code\":1,\"user\":{\"diamond\":500,\"id\":100002,\"loginDate\":1551863302799,\"loginTime\":1551863302799,\"nick\":\"游客100002\",\"strId\":\"ca63533523741845550988f2b9d5751d137ca\"}}";
 
 
-        UserRecordResult userRecordResult = JacksonUtil.parseObject(str, UserRecordResult.class);
-
-        System.out.println(userRecordResult.getCode()+""+userRecordResult.toString());
+//        UserRecordResult userRecordResult = JacksonUtil.parseObject(str, UserRecordResult.class);
+//
+//        System.out.println(userRecordResult.getCode()+""+userRecordResult.toString());
     }
 
 }

@@ -4,6 +4,7 @@ import com.senpure.base.util.NameThreadFactory;
 import com.senpure.io.ClientServer;
 import com.senpure.io.IOServerProperties;
 import com.senpure.io.MessageHandlerUtil;
+import com.senpure.io.handler.SCHeartMessageHandler;
 import com.senpure.io.handler.SCInnerErrorMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -33,9 +34,14 @@ public class ClientConfiguration {
     private ScheduledExecutorService service;
 
 
-   // @Bean
+    // @Bean
     public SCInnerErrorMessageHandler innerErrorMessageHandler() {
         return new SCInnerErrorMessageHandler();
+    }
+
+    @Bean
+    public SCHeartMessageHandler heartMessageHandler() {
+        return new SCHeartMessageHandler();
     }
 
     @Bean
@@ -44,13 +50,9 @@ public class ClientConfiguration {
         service = Executors.newSingleThreadScheduledExecutor(new NameThreadFactory("senpure-chat-client"));
         MessageHandlerUtil.setService(service);
         ClientServer clientServer = new ClientServer();
-        String[] temp = properties.getGatewayAddress().split(",");
-        String[] oneAddressTemp = temp[0].split(":");
-        String host = oneAddressTemp[0];
-        int port = Integer.parseInt(oneAddressTemp[1]);
         clientServer.setProperties(properties);
         clientServer.setServerName("chat客户端模拟器");
-        clientServer.start(host, port);
+        clientServer.start(properties.getHost(), properties.getPort());
         this.clientServer = clientServer;
         return clientServer;
     }

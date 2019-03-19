@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 import javax.net.ssl.SSLException;
 import java.net.InetSocketAddress;
@@ -31,8 +29,8 @@ import java.util.concurrent.Executors;
  * @author senpure
  * @time 2018-12-17 18:02:46
  */
-@Configuration
-@EnableConfigurationProperties(IOServerProperties.class)
+//@Configuration
+//@EnableConfigurationProperties(IOServerProperties.class)
 public class GameConfiguration {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -60,25 +58,25 @@ public class GameConfiguration {
    // @PostConstruct
     public void start() throws SSLException, CertificateException {
 
-        String[] temp = properties.getGatewayAddress().split(",");
-        for (int i = 0; i < temp.length; i++) {
-            String[] oneAddressTemp = temp[i].split(":");
-            String host = oneAddressTemp[0];
-            int port = Integer.parseInt(oneAddressTemp[1]);
-            RealityServer realityServer = new RealityServer();
-           // realityServer.setProperties(properties);
-            realityServer.setServerName("chatGameServer");
-            realityServer.setGatewayManager(gatewayManager);
-            realityServer.setMessageExecuter(realityMessageExecuter());
+//        String[] temp = properties.getGatewayAddress().split(",");
+//        for (int i = 0; i < temp.length; i++) {
+//            String[] oneAddressTemp = temp[i].split(":");
+//            String host = oneAddressTemp[0];
+//            int port = Integer.parseInt(oneAddressTemp[1]);
+//            RealityServer realityServer = new RealityServer();
+//           // realityServer.setProperties(properties);
+//            realityServer.setServerName("chatGameServer");
+//            realityServer.setGatewayManager(gatewayManager);
+//            realityServer.setMessageExecuter(realityMessageExecuter());
+//
+//            boolean start = realityServer.start(host, port);
+//            if (start) {
+//                servers.add(realityServer);
+//                // Channel channel=realityServer.getChannel();
+//
+//            }
 
-            boolean start = realityServer.start(host, port);
-            if (start) {
-                servers.add(realityServer);
-                // Channel channel=realityServer.getChannel();
-
-            }
-
-        }
+     //   }
     }
 
    // @PreDestroy

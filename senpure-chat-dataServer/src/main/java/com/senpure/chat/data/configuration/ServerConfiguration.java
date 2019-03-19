@@ -72,25 +72,25 @@ public class ServerConfiguration {
     @PostConstruct
     public void start() throws SSLException, CertificateException {
 
-        String[] temp = properties.getGatewayAddress().split(",");
-        for (int i = 0; i < temp.length; i++) {
-            String[] oneAddressTemp = temp[i].split(":");
-            String host = oneAddressTemp[0];
-            int port = Integer.parseInt(oneAddressTemp[1]);
-            RealityServer realityServer = new RealityServer();
-            //realityServer.setProperties(properties);
-            realityServer.setServerName("chatDataServer");
-            realityServer.setGatewayManager(gatewayManager());
-            realityServer.setMessageExecuter(realityMessageExecuter());
-
-            boolean start = realityServer.start(host, port);
-            if (start) {
-                servers.add(realityServer);
-                // Channel channel=realityServer.getChannel();
-
-            }
-
-        }
+//        String[] temp = properties.getGatewayAddress().split(",");
+//        for (int i = 0; i < temp.length; i++) {
+//            String[] oneAddressTemp = temp[i].split(":");
+//            String host = oneAddressTemp[0];
+//            int port = Integer.parseInt(oneAddressTemp[1]);
+//            RealityServer realityServer = new RealityServer();
+//            //realityServer.setProperties(properties);
+//            realityServer.setServerName("chatDataServer");
+//            realityServer.setGatewayManager(gatewayManager());
+//            realityServer.setMessageExecuter(realityMessageExecuter());
+//
+//            boolean start = realityServer.start(host, port);
+//            if (start) {
+//                servers.add(realityServer);
+//                // Channel channel=realityServer.getChannel();
+//
+//            }
+//
+//        }
     }
 
     @PreDestroy
