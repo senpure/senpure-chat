@@ -9,13 +9,15 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * UserEntity
+ * User
  *
  * @author senpure-generator
- * @version 2019-1-31 10:13:52
+ * @version 2019-3-20 14:12:43
  */
 public class UserRecordResult extends ActionResult {
-    private static final long serialVersionUID = 1699538358L;
+    private static final long serialVersionUID = 274272385L;
+
+    public static final String RECORD_NAME = "user";
 
     @ApiModelProperty(position = 3)
     private User user;
@@ -46,7 +48,6 @@ public class UserRecordResult extends ActionResult {
     public UserRecordResult(int code) {
         super(code);
     }
-
 
     public User getUser() {
         return user;

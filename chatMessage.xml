@@ -12,4 +12,7 @@
         <field type="long" name="changeDiamond"></field>
         <field type="long" name="afterDiamond"></field>
     </message>
+    <message id="105" type="SC" name="Error">
+        <field type="String" name="message"></field>
+    </message>
 </messages>

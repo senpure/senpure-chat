@@ -22,7 +22,7 @@ public class CSUserLoginMessageHandler extends AbstractRealityMessageHandler<CSU
     @Override
     public void execute(Channel channel, long token, long userId, CSUserLoginMessage message) {
 
-        User user = userService.login(message.getId(), message.getNick());
+        User user = userService.login(message.getId(),token, message.getNick());
         if (user != null) {
             SCUserLoginMessage loginMessage = new SCUserLoginMessage();
             loginMessage.setUser(userService.convert(user));

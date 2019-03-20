@@ -47,9 +47,6 @@ public class ClientController implements Initializable {
     @Autowired
     private ClientServer clientServer;
 
-
-    @Autowired
-    private ClientView clientView;
     private int position = 0;
     private long playerId = 0;
 
@@ -88,7 +85,7 @@ public class ClientController implements Initializable {
             playerId = 0;
         }
 
-        message(message.getUser().getNick() + "退出game房间");
+        message(message.getUser().getNick() + "退出game房间[" + message.getRoomId() + "]");
     }
 
     public void exitRoom(SCExitFreeChatMessage message) {
@@ -96,7 +93,7 @@ public class ClientController implements Initializable {
             playerId = 0;
         }
 
-        message(message.getUser().getNick() + "退出free房间");
+        message(message.getUser().getNick() + "退出free房间[" + message.getRoomId() + "]");
     }
 
     public void createGameRoom() {
@@ -113,7 +110,8 @@ public class ClientController implements Initializable {
         Platform.runLater(() -> {
             User user = message.getUser();
             //textFieldNick.setText(user.getNick());
-            textAreaCore.appendText(user.getNick() + "[" + user.getUserId() + "]进入game房间!\n");
+            message(user.getNick() + "[" + user.getUserId() + "]进入game房间[" + message.getRoomId() + "]");
+            // textAreaCore.appendText(user.getNick() + "[" + user.getUserId() + "]进入game房间!\n");
             position = 1;
         });
     }
@@ -123,7 +121,7 @@ public class ClientController implements Initializable {
         Platform.runLater(() -> {
             User user = message.getUser();
             //textFieldNick.setText(user.getNick());
-            textAreaCore.appendText(user.getNick() + "[" + user.getUserId() + "]进入free房间!\n");
+            message(user.getNick() + "[" + user.getUserId() + "]进入free房间[" + message.getRoomId() + "]");
             position = 2;
         });
     }
@@ -137,6 +135,10 @@ public class ClientController implements Initializable {
 
     public void message(String message) {
         Platform.runLater(() -> textAreaCore.appendText(message + "\n"));
+    }
+
+    public void clearMessage() {
+        textAreaCore.clear();
     }
 
     public void sendChatMessage() {

@@ -23,16 +23,17 @@ public class User extends LongAndVersionEntity {
     /**
      * 钻石
      */
-    private  Long  diamond;
+    private Long diamond;
     /**
      * 登录时间 时间戳
      */
-    private  Long  loginTime;
+    private Long loginTime;
     /**
      * 登录时间
      */
     private Date loginDate;
     private String strId;
+    private Long gatewayToken;
 
     public String getStrId() {
         return strId;
@@ -59,11 +60,11 @@ public class User extends LongAndVersionEntity {
         this.diamond = diamond;
     }
 
-    public  Long  getLoginTime() {
+    public Long getLoginTime() {
         return loginTime;
     }
 
-    public void setLoginTime( Long loginTime) {
+    public void setLoginTime(Long loginTime) {
         this.loginTime = loginTime;
     }
 
@@ -74,5 +75,17 @@ public class User extends LongAndVersionEntity {
     public User setLoginDate(Date loginDate) {
         this.loginDate = loginDate;
         return this;
+    }
+
+    public void setDiamond(Long diamond) {
+        this.diamond = diamond;
+    }
+
+    public Long getGatewayToken() {
+        return gatewayToken;
+    }
+
+    public void setGatewayToken(Long gatewayToken) {
+        this.gatewayToken = gatewayToken;
     }
 }

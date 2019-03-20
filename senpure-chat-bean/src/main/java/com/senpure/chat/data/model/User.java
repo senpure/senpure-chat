@@ -7,14 +7,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * UserEntity
+ * User
  * 
  * @author senpure-generator
- * @version 2019-1-31 10:13:52
+ * @version 2019-3-20 14:12:43
  */
-@ApiModel(description = "UserEntity")
+@ApiModel(description = "User")
 public class User implements Serializable {
-    private static final long serialVersionUID = 1699538358L;
+    private static final long serialVersionUID = 274272385L;
 
     //(主键)
     private Long id;
@@ -28,13 +28,15 @@ public class User implements Serializable {
     @ApiModelProperty(value = "钻石", dataType = "long", example = "666666", position = 2)
     private Long diamond;
     //登录时间 时间戳
-    @ApiModelProperty(value = "登录时间 时间戳", dataType = "long", example = "1548864000000", position = 3)
+    @ApiModelProperty(value = "登录时间 时间戳", dataType = "long", example = "1553011200000", position = 3)
     private Long loginTime;
     //登录时间
-    @ApiModelProperty(value = "登录时间", dataType = "date-time", example = "2019-01-31 00:00:00", position = 4)
+    @ApiModelProperty(value = "登录时间", dataType = "date-time", example = "2019-03-20 00:00:00", position = 4)
     private Date loginDate;
     @ApiModelProperty(example = "strId", position = 5)
     private String strId;
+    @ApiModelProperty(dataType = "long", example = "666666", position = 6)
+    private Long gatewayToken;
 
     /**
      * get (主键)
@@ -147,6 +149,17 @@ public class User implements Serializable {
     }
 
 
+    public Long getGatewayToken() {
+        return gatewayToken;
+    }
+
+
+    public User setGatewayToken(Long gatewayToken) {
+        this.gatewayToken = gatewayToken;
+        return this;
+    }
+
+
     /**
      * get 乐观锁，版本控制
      *
@@ -177,6 +190,7 @@ public class User implements Serializable {
                 + ",loginTime=" + loginTime
                 + ",loginDate=" + loginDate
                 + ",strId=" + strId
+                + ",gatewayToken=" + gatewayToken
                 + "}";
     }
 

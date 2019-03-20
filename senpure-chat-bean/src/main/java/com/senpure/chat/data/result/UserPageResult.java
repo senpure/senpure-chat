@@ -9,13 +9,15 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * UserEntity
+ * User
  *
  * @author senpure-generator
- * @version 2019-1-31 10:13:52
+ * @version 2019-3-20 14:12:43
  */
 public class UserPageResult extends ActionResult {
-    private static final long serialVersionUID = 1699538358L;
+    private static final long serialVersionUID = 274272385L;
+
+    public static final String RECORDS_NAME = "users";
 
     @ApiModelProperty(position = 3, value = "结果集总数", example = "1086")
     private int total;
@@ -40,6 +42,9 @@ public class UserPageResult extends ActionResult {
 
     public static UserPageResult result(int code) {
         return new UserPageResult(code);
+    }
+
+    public UserPageResult() {
     }
 
     public UserPageResult(int code) {

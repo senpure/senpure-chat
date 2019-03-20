@@ -17,9 +17,11 @@
     </message>
 
     <message id="201" type="SC" name="EntryGameChat">
+        <field type="int" name="roomId"></field>
         <field type="User" name="user"></field>
     </message>
     <message id="202" type="SC" name="ExitGameChat">
+        <field type="int" name="roomId"></field>
         <field type="User" name="user"></field>
     </message>
 </messages>

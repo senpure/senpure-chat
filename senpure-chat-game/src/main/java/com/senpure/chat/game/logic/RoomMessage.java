@@ -29,6 +29,7 @@ public class RoomMessage {
     public void sendPlayerEntryRoomMessage(Player player) {
 
         SCEntryGameChatMessage message = new SCEntryGameChatMessage();
+        message.setRoomId(room.getRoomId());
         message.setUser(RoomService.convert(player));
 
         List<Long> userIds = new ArrayList<>(room.getPlayers().keySet());
@@ -38,6 +39,7 @@ public class RoomMessage {
     }
     public void sendPlayerExitRoomMessage(Player player) {
         SCExitGameChatMessage message = new SCExitGameChatMessage();
+        message.setRoomId(room.getRoomId());
         message.setUser(RoomService.convert(player));
         List<Long> userIds = new ArrayList<>(room.getPlayers().keySet());
         gatewayManager.sendMessage2Gateway(userIds, message);

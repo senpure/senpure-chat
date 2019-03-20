@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 
 /**
  * @author senpure
- * @time 2019-2-15 15:05:55
+ * @time 2019-3-20 10:11:12
  */
 public class SCGameChatMessage extends  Message {
 

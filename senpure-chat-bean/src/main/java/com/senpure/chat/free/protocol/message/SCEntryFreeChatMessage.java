@@ -6,11 +6,12 @@ import io.netty.buffer.ByteBuf;
 
 /**
  * @author senpure
- * @time 2019-2-15 15:05:55
+ * @time 2019-3-20 10:11:12
  */
 public class SCEntryFreeChatMessage extends  Message {
 
     public static final int MESSAGE_ID = 3000201;
+    private int roomId;
     private User user;
     /**
      * 写入字节缓存
@@ -18,8 +19,9 @@ public class SCEntryFreeChatMessage extends  Message {
     @Override
     public void write(ByteBuf buf){
         getSerializedSize();
+        writeVar32(buf,8,roomId);
         if (user!= null){
-            writeBean(buf,11,user);
+            writeBean(buf,19,user);
         }
     }
 
@@ -33,7 +35,10 @@ public class SCEntryFreeChatMessage extends  Message {
             switch (tag) {
                 case 0://end
                 return;
-                case 11:// 1 << 3 | 3
+                case 8:// 1 << 3 | 0
+                        roomId = readVar32(buf);
+                    break;
+                case 19:// 2 << 3 | 3
                 user = new User();
                         readBean(buf,user);
                     break;
@@ -53,6 +58,7 @@ public class SCEntryFreeChatMessage extends  Message {
             return size;
         }
         size = 0 ;
+        size += computeVar32Size(1,roomId);
         if (user != null){
             size += computeBeanSize(1,user);
         }
@@ -60,6 +66,14 @@ public class SCEntryFreeChatMessage extends  Message {
         return size ;
     }
 
+    public  int getRoomId() {
+        return roomId;
+    }
+
+    public SCEntryFreeChatMessage setRoomId(int roomId) {
+        this.roomId=roomId;
+        return this;
+    }
     public  User getUser() {
         return user;
     }
@@ -77,20 +91,23 @@ public class SCEntryFreeChatMessage extends  Message {
     @Override
     public String toString() {
         return "SCEntryFreeChatMessage[3000201]{"
-                +"user=" + user
+                +"roomId=" + roomId
+                +",user=" + user
                 + "}";
    }
 
-    //4 + 3 = 7 个空格
-    private String nextIndent ="       ";
-    //最长字段长度 4
-    private int filedPad = 4;
+    //6 + 3 = 9 个空格
+    private String nextIndent ="         ";
+    //最长字段长度 6
+    private int filedPad = 6;
 
     @Override
     public String toString(String indent) {
         indent = indent == null ? "" : indent;
         StringBuilder sb = new StringBuilder();
         sb.append("SCEntryFreeChatMessage").append("[3000201]").append("{");
+        sb.append("\n");
+        sb.append(indent).append(rightPad("roomId", filedPad)).append(" = ").append(roomId);
         sb.append("\n");
         sb.append(indent).append(rightPad("user", filedPad)).append(" = ");
         if(user!=null){

@@ -8,55 +8,57 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 /**
- * UserEntity
+ * User
  *
  * @author senpure-generator
- * @version 2019-1-31 10:13:52
+ * @version 2019-3-20 14:12:43
  */
 public class UserCriteriaStr extends CriteriaStr implements Serializable {
-    private static final long serialVersionUID = 1699538358L;
+    private static final long serialVersionUID = 274272385L;
 
     //(主键)
-    @ApiModelProperty(value = "(主键)", dataType = "long", example = "666666", position = 6)
+    @ApiModelProperty(value = "(主键)", dataType = "long", example = "666666", position = 7)
     private String id;
     //乐观锁，版本控制
     @ApiModelProperty(hidden = true )
     private String version;
     //昵称
-    @ApiModelProperty(value = "昵称", example = "nick", position = 7)
+    @ApiModelProperty(value = "昵称", example = "nick", position = 8)
     private String nick;
     //钻石
-    @ApiModelProperty(value = "钻石", dataType = "long", example = "666666", position = 8)
+    @ApiModelProperty(value = "钻石", dataType = "long", example = "666666", position = 9)
     private String diamond;
     //登录时间
-    @ApiModelProperty(value = "登录时间", dataType = "date-time", example = "2019-01-31 00:00:00", position = 9)
+    @ApiModelProperty(value = "登录时间", dataType = "date-time", example = "2019-03-20 00:00:00", position = 10)
     private String loginDate;
     //loginDate 时间格式
-    @ApiModelProperty(value = "loginDate 格式", example = "yyyy-MM-dd HH:mm:ss", position = 10)
+    @ApiModelProperty(value = "loginDate 格式", example = "yyyy-MM-dd HH:mm:ss", position = 11)
     private String loginDatePattern ;
     @DynamicDate
     private PatternDate loginDateValid = new PatternDate();
-    @ApiModelProperty(example = "strId", position = 11)
+    @ApiModelProperty(example = "strId", position = 12)
     private String strId;
-    @ApiModelProperty(value = "loginDate 开始范围 (>=)", dataType = "date-time", example = "2019-01-31 00:00:00", position = 12)
+    @ApiModelProperty(dataType = "long", example = "666666", position = 13)
+    private String gatewayToken;
+    @ApiModelProperty(value = "loginDate 开始范围 (>=)", dataType = "date-time", example = "2019-03-20 00:00:00", position = 14)
     private String startLoginDate;
-    @ApiModelProperty(value = "loginDate 结束范围 (<=)", dataType = "date-time", example = "2019-01-31 23:59:59", position = 13)
+    @ApiModelProperty(value = "loginDate 结束范围 (<=)", dataType = "date-time", example = "2019-03-20 23:59:59", position = 15)
     private String endLoginDate;
     @DynamicDate
     private PatternDate startLoginDateValid = new PatternDate();
     @DynamicDate
     private PatternDate endLoginDateValid = new PatternDate();
     //table [user][column = nick] criteriaOrder
-    @ApiModelProperty(value = "nick 排序" , allowableValues = "ASC,DESC", position = 14)
+    @ApiModelProperty(value = "nick 排序" , allowableValues = "ASC,DESC", position = 16)
     private String nickOrder;
     //table [user][column = diamond] criteriaOrder
-    @ApiModelProperty(value = "diamond 排序" , allowableValues = "ASC,DESC", position = 15)
+    @ApiModelProperty(value = "diamond 排序" , allowableValues = "ASC,DESC", position = 17)
     private String diamondOrder;
     //table [user][column = login_time] criteriaOrder
-    @ApiModelProperty(value = "loginDate 排序" , allowableValues = "ASC,DESC", position = 16)
+    @ApiModelProperty(value = "loginDate 排序" , allowableValues = "ASC,DESC", position = 18)
     private String loginDateOrder;
     //table [user][column = str_id] criteriaOrder
-    @ApiModelProperty(value = "strId 排序" , allowableValues = "ASC,DESC", position = 17)
+    @ApiModelProperty(value = "strId 排序" , allowableValues = "ASC,DESC", position = 19)
     private String strIdOrder;
 
     public UserCriteria toUserCriteria() {
@@ -108,6 +110,9 @@ public class UserCriteriaStr extends CriteriaStr implements Serializable {
         if (strIdOrder != null) {
             criteria.setStrIdOrder(strIdOrder);
         }
+        if (gatewayToken != null) {
+            criteria.setGatewayToken(Long.valueOf(gatewayToken));
+        }
         return criteria;
     }
 
@@ -141,6 +146,9 @@ public class UserCriteriaStr extends CriteriaStr implements Serializable {
         }
         if (strId != null) {
             sb.append("strId=").append(strId).append(",");
+        }
+        if (gatewayToken != null) {
+            sb.append("gatewayToken=").append(gatewayToken).append(",");
         }
     }
 
@@ -433,6 +441,19 @@ public class UserCriteriaStr extends CriteriaStr implements Serializable {
             return this;
         }
         this.strIdOrder = strIdOrder;
+        return this;
+    }
+
+    public String getGatewayToken() {
+        return gatewayToken;
+    }
+
+
+    public UserCriteriaStr setGatewayToken(String gatewayToken) {
+        if (gatewayToken != null && gatewayToken.trim().length() == 0) {
+            return this;
+        }
+        this.gatewayToken = gatewayToken;
         return this;
     }
 

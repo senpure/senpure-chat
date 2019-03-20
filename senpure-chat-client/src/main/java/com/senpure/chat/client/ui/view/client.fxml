@@ -33,7 +33,8 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="105.0" prefWidth="116.0">
                <children>
-                  <Button layoutX="20.0" layoutY="25.0" mnemonicParsing="false" onAction="#sendChatMessage" prefHeight="55.0" prefWidth="83.0" text="发送" />
+                  <Button layoutX="26.0" layoutY="68.0" mnemonicParsing="false" onAction="#sendChatMessage" prefHeight="28.0" prefWidth="83.0" text="发送" />
+                  <Button layoutX="26.0" layoutY="22.0" mnemonicParsing="false" onAction="#clearMessage" prefHeight="28.0" prefWidth="83.0" text="清空" />
                </children>
             </AnchorPane>
         </items>

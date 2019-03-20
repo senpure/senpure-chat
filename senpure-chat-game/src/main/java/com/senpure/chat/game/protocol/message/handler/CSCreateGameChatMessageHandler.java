@@ -24,7 +24,14 @@ public class CSCreateGameChatMessageHandler extends AbstractRealityMessageHandle
 
     @Override
     public void execute(Channel channel, long token, long userId, CSCreateGameChatMessage message) {
-        GameRoom room = roomManager.createRoom();
+        GameRoom room = roomManager.getPlayerRoom(userId);
+        if (room != null) {
+            Player player = playerServer.findPlayer(userId);
+            logger.info("{}{}进入之前的房间{}", player.getId(), player.getNick(), room.getRoomId());
+            room.playerEntryRoom(player);
+            return;
+        }
+        room = roomManager.createRoom();
         Player player = playerServer.findPlayer(userId);
         room.playerEntryRoom(player);
     }

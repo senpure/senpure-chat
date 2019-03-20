@@ -3,24 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--
-    该xml为[senpure-code-generator]于[2019-01-29 10:00:49]自动生成，如果预计字段经常变动，不
+    该xml为[senpure-code-generator]于[2019-03-20 14:12:43]自动生成，如果预计字段经常变动，不
     建议修改。如果该xml不能满足需要可新建一个mxl，如UserExpandMapper.xml，将命名空间指向com.
     senpure.chat.data.mapper.ModelAMapper即可，该xml中定义的userResultMap与userAllColumns等
     其他可以在新建的xml中直接引用。
 -->
 <mapper namespace="com.senpure.chat.data.mapper.UserMapper">
     <resultMap id="userResultMap" type="com.senpure.chat.data.model.User">
-        <id     column="id"          property="id"         jdbcType="BIGINT"/>    <!-- (主键) -->
-        <result column="version"     property="version"    jdbcType="INTEGER"/>   <!-- 乐观锁，版本控制 -->
-        <result column="user_id"     property="userId"     jdbcType="BIGINT"/>    <!-- 用户id -->
-        <result column="nick"        property="nick"       jdbcType="VARCHAR"/>   <!-- 昵称 -->
-        <result column="diamond"     property="diamond"    jdbcType="BIGINT"/>    <!-- 钻石 -->
-        <result column="login_time"  property="loginTime"  jdbcType="BIGINT"/>    <!-- 登录时间 时间戳 -->
-        <result column="login_date"  property="loginDate"  jdbcType="TIMESTAMP"/> <!-- 登录时间 -->
-        <result column="str_id"      property="strId"      jdbcType="VARCHAR"/>
+        <id     column="id"             property="id"            jdbcType="BIGINT"/>    <!-- (主键) -->
+        <result column="version"        property="version"       jdbcType="INTEGER"/>   <!-- 乐观锁，版本控制 -->
+        <result column="nick"           property="nick"          jdbcType="VARCHAR"/>   <!-- 昵称 -->
+        <result column="diamond"        property="diamond"       jdbcType="BIGINT"/>    <!-- 钻石 -->
+        <result column="login_time"     property="loginTime"     jdbcType="BIGINT"/>    <!-- 登录时间 时间戳 -->
+        <result column="login_date"     property="loginDate"     jdbcType="TIMESTAMP"/> <!-- 登录时间 -->
+        <result column="str_id"         property="strId"         jdbcType="VARCHAR"/>
+        <result column="gateway_token"  property="gatewayToken"  jdbcType="BIGINT"/>
     </resultMap>
     <sql id="userAllColumns">
-        id,version,user_id,nick,diamond,login_time,login_date,str_id
+        id,version,nick,diamond,login_time,login_date,str_id,gateway_token
     </sql>
 
     <!--主键查找-->
@@ -38,9 +38,6 @@
     <delete id="deleteByCriteria" parameterType="com.senpure.chat.data.criteria.UserCriteria">
         delete from user
         <where>
-            <if test="userId != null">
-                and user_id = #{userId}
-            </if>
             <if test="nick != null">
                 and nick = #{nick}
             </if>
@@ -52,6 +49,9 @@
             </if>
             <if test="strId != null">
                 and str_id = #{strId}
+            </if>
+            <if test="gatewayToken != null">
+                and gateway_token = #{gatewayToken}
             </if>
             <if test="startLoginDate != null">
                 and login_time >= #{startLoginDate.time}
@@ -65,7 +65,7 @@
     <!-- 取对象的值，直接插入数据库(包括空值),version字段(版本控制)，被初始化为1-->
     <insert id="save" parameterType="com.senpure.chat.data.model.User" >
         insert into user (<include refid="userAllColumns"/>)
-        values (#{id},1,#{userId},#{nick},#{diamond},#{loginTime},#{loginDate},#{strId})
+        values (#{id},1,#{nick},#{diamond},#{loginTime},#{loginDate},#{strId},#{gatewayToken})
     </insert>
 
     <!-- 取对象的值，直接插入数据库(包括空值),version字段(版本控制)，被初始化为1-->
@@ -73,7 +73,7 @@
         insert into user (<include refid="userAllColumns"/>)
         values
         <foreach collection="list" item="item" index="index" separator="," >
-            (#{item.id},1,#{item.userId},#{item.nick},#{item.diamond},#{item.loginTime},#{item.loginDate},#{item.strId})
+            (#{item.id},1,#{item.nick},#{item.diamond},#{item.loginTime},#{item.loginDate},#{item.strId},#{item.gatewayToken})
         </foreach>
     </insert>
 
@@ -83,9 +83,6 @@
         <set>
             <bind name="versionUpdate" value="version + 1"/>
             version = #{versionUpdate},
-            <if test="userId != null">
-                user_id = #{userId},
-            </if>
             <if test="nick != null">
                 nick = #{nick},
             </if>
@@ -101,6 +98,9 @@
             <if test="strId != null">
                 str_id = #{strId},
             </if>
+            <if test="gatewayToken != null">
+                gateway_token = #{gatewayToken},
+            </if>
         </set>
         where id = #{id}  and version =  #{version}
     </update>
@@ -111,12 +111,12 @@
         <set>
             <bind name="versionUpdate" value="version + 1"/>
             version = #{versionUpdate},
-            user_id = #{userId},
             nick = #{nick},
             diamond = #{diamond},
             login_time = #{loginTime},
             login_date = #{loginDate},
             str_id = #{strId},
+            gateway_token = #{gatewayToken},
         </set>
         where id = #{id}  and version =  #{version}
     </update>
@@ -134,9 +134,6 @@
                     version = version + 1,
                 </otherwise>
             </choose>
-                <if test="userId != null">
-                    user_id = #{userId},
-                </if>
                 <if test="nick != null">
                     nick = #{nick},
                 </if>
@@ -149,6 +146,9 @@
                 </if>
                 <if test="strId != null">
                     str_id = #{strId},
+                </if>
+                <if test="gatewayToken != null">
+                    gateway_token = #{gatewayToken},
                 </if>
         </set>
         <where>
@@ -179,9 +179,6 @@
     <select id="countByCriteria" resultType="int" parameterType="com.senpure.chat.data.criteria.UserCriteria">
         select count(*) from user
         <where>
-            <if test="userId != null">
-                and user_id = #{userId}
-            </if>
             <if test="nick != null">
                 and nick = #{nick}
             </if>
@@ -193,6 +190,9 @@
             </if>
             <if test="strId != null">
                 and str_id = #{strId}
+            </if>
+            <if test="gatewayToken != null">
+                and gateway_token = #{gatewayToken}
             </if>
             <if test="startLoginDate != null">
                 and login_time >= #{startLoginDate.time}
@@ -208,9 +208,6 @@
         select <include refid="userAllColumns"/>
         from user
         <where>
-            <if test="userId != null">
-                and user_id = #{userId}
-            </if>
             <if test="nick != null">
                 and nick = #{nick}
             </if>
@@ -222,6 +219,9 @@
             </if>
             <if test="strId != null">
                 and str_id = #{strId}
+            </if>
+            <if test="gatewayToken != null">
+                and gateway_token = #{gatewayToken}
             </if>
             <if test="startLoginDate != null">
                 and login_time >= #{startLoginDate.time}

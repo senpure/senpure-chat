@@ -8,13 +8,13 @@ import java.util.Date;
 import java.io.Serializable;
 
 /**
- * UserEntity
+ * User
  *
  * @author senpure-generator
- * @version 2019-1-31 10:13:52
+ * @version 2019-3-20 14:12:43
  */
 public class UserCriteria extends Criteria implements Serializable {
-    private static final long serialVersionUID = 1699538358L;
+    private static final long serialVersionUID = 274272385L;
 
     //(主键)
     private Long id;
@@ -37,6 +37,7 @@ public class UserCriteria extends Criteria implements Serializable {
     private String strId;
     //table [user][column = str_id] criteriaOrder
     private String strIdOrder;
+    private Long gatewayToken;
 
     public static User toUser(UserCriteria criteria, User user) {
         user.setId(criteria.getId());
@@ -47,6 +48,7 @@ public class UserCriteria extends Criteria implements Serializable {
             user.setLoginTime(criteria.getLoginDate().getTime());
         }
         user.setStrId(criteria.getStrId());
+        user.setGatewayToken(criteria.getGatewayToken());
         user.setVersion(criteria.getVersion());
         return user;
     }
@@ -77,6 +79,9 @@ public class UserCriteria extends Criteria implements Serializable {
         }
         if (getStrId() != null) {
             user.setStrId(getStrId());
+        }
+        if (getGatewayToken() != null) {
+            user.setGatewayToken(getGatewayToken());
         }
         if (getVersion() != null) {
             user.setVersion(getVersion());
@@ -114,6 +119,9 @@ public class UserCriteria extends Criteria implements Serializable {
         }
         if (strId != null) {
             sb.append("strId=").append(strId).append(",");
+        }
+        if (gatewayToken != null) {
+            sb.append("gatewayToken=").append(gatewayToken).append(",");
         }
     }
 
@@ -306,6 +314,16 @@ public class UserCriteria extends Criteria implements Serializable {
     public UserCriteria setStrIdOrder(String strIdOrder) {
         this.strIdOrder = strIdOrder;
         putSort("str_id", strIdOrder);
+        return this;
+    }
+
+    public Long getGatewayToken() {
+        return gatewayToken;
+    }
+
+
+    public UserCriteria setGatewayToken(Long gatewayToken) {
+        this.gatewayToken = gatewayToken;
         return this;
     }
 

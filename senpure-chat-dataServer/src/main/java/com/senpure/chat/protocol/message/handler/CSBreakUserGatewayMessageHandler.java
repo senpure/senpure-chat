@@ -27,7 +27,7 @@ public class CSBreakUserGatewayMessageHandler extends AbstractInnerMessageHandle
     public void execute(Channel channel, long token, long userId, CSBreakUserGatewayMessage message) {
         this.gatewayManager.breakToken(message.getToken(), message.getRelationToken());
         if (this.gatewayManager.breakUser(message.getUserId(), message.getRelationToken())) {
-            userService.logout(message.getUserId());
+            userService.logout(message.getUserId(), token);
         }
 
     }
