@@ -5,6 +5,7 @@ import com.senpure.chat.game.logic.Player;
 import com.senpure.chat.game.logic.RoomManager;
 import com.senpure.chat.game.service.PlayerServer;
 import com.senpure.chat.protocol.message.CSJoinRoomMessage;
+import com.senpure.chat.protocol.message.SCErrorMessage;
 import com.senpure.io.handler.AbstractRealityAskMessageHandler;
 import com.senpure.io.message.CSAskHandleMessage;
 import com.senpure.io.message.SCAskHandleMessage;
@@ -26,7 +27,12 @@ public class CSJoinRoomMessageHandler extends AbstractRealityAskMessageHandler<C
 
     @Override
     public void execute(Channel channel, long token, long userId, CSJoinRoomMessage message) {
-
+        if (userId == 0) {
+            SCErrorMessage errorMessage = new SCErrorMessage();
+            errorMessage.setMessage("没有登录--------");
+            gatewayManager.sendMessage2GatewayByToken(token, errorMessage);
+            return;
+        }
         GameRoom gameRoom = roomManager.getPlayerRoom(userId);
         if (gameRoom != null) {
 

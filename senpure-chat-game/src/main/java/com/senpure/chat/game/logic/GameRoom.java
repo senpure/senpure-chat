@@ -47,6 +47,7 @@ public class GameRoom {
     public void playerExitRoom(Long playerId) {
         Player player = players.remove(playerId);
         if (player != null) {
+            roomManager.playerExitRoom(playerId);
             message.sendPlayerExitRoomMessage(player);
         }
 

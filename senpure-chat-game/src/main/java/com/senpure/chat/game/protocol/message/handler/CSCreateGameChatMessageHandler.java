@@ -5,6 +5,7 @@ import com.senpure.chat.game.logic.Player;
 import com.senpure.chat.game.logic.RoomManager;
 import com.senpure.chat.game.protocol.message.CSCreateGameChatMessage;
 import com.senpure.chat.game.service.PlayerServer;
+import com.senpure.chat.protocol.message.SCErrorMessage;
 import com.senpure.io.handler.AbstractRealityMessageHandler;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class CSCreateGameChatMessageHandler extends AbstractRealityMessageHandle
 
     @Override
     public void execute(Channel channel, long token, long userId, CSCreateGameChatMessage message) {
+        if (userId == 0) {
+            SCErrorMessage errorMessage = new SCErrorMessage();
+            errorMessage.setMessage("没有登录--------");
+            gatewayManager.sendMessage2GatewayByToken(token, errorMessage);
+            return;
+        }
         GameRoom room = roomManager.getPlayerRoom(userId);
         if (room != null) {
             Player player = playerServer.findPlayer(userId);

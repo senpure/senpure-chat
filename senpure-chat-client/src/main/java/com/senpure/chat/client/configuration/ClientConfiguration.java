@@ -52,7 +52,7 @@ public class ClientConfiguration {
         ClientServer clientServer = new ClientServer();
         clientServer.setProperties(properties);
         clientServer.setServerName("chat客户端模拟器");
-        clientServer.start(properties.getHost(), properties.getPort());
+       // clientServer.connect();
         this.clientServer = clientServer;
         return clientServer;
     }

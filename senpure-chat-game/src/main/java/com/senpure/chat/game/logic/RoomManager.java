@@ -49,7 +49,7 @@ public class RoomManager {
     }
 
     private int nextRoomId() {
-        int roomId = nextRoomId();
+        int roomId = getEasyRoomId();
         if (roomId == 0) {
             do {
                 roomId = RandomUtil.random(100000, 999999);
@@ -69,6 +69,10 @@ public class RoomManager {
         return playerRoomMap.put(playerId, room);
     }
 
+    public void playerExitRoom(Long playerId) {
+
+        playerRoomMap.remove(playerId);
+    }
     public GameRoom getPlayerRoom(Long playerId) {
         return playerRoomMap.get(playerId);
     }
@@ -177,6 +181,13 @@ public class RoomManager {
                 using.offer(id)
         );
 
+    }
+
+    public static void main(String[] args) {
+        RoomManager roomManager = new RoomManager();
+
+        System.out.println(roomManager.createRoom());
+        System.out.println("----over");
     }
 
 }
