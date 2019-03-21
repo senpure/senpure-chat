@@ -207,8 +207,8 @@ public class ClientController implements Initializable {
         textAreaCore.clear();
     }
 
-    public  void keyRelease(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER&&event.isControlDown()) {
+    public void keyRelease(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER && event.isControlDown()) {
             sendChatMessage();
         }
     }
@@ -218,6 +218,8 @@ public class ClientController implements Initializable {
             sendGameChatMessage();
         } else if (position == 2) {
             sendFreeChatMessage();
+        } else {
+            message("您还没有进入房间");
         }
     }
 
