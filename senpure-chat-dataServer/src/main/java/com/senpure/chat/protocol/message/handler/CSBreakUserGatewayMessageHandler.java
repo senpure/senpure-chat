@@ -3,6 +3,7 @@ package com.senpure.chat.protocol.message.handler;
 import com.senpure.chat.data.service.UserService;
 import com.senpure.io.handler.AbstractInnerMessageHandler;
 import com.senpure.io.message.CSBreakUserGatewayMessage;
+import com.senpure.io.protocol.Constant;
 import com.senpure.io.server.GatewayManager;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,15 @@ public class CSBreakUserGatewayMessageHandler extends AbstractInnerMessageHandle
     }
 
     public void execute(Channel channel, long token, long userId, CSBreakUserGatewayMessage message) {
-        this.gatewayManager.breakToken(message.getToken(), message.getRelationToken());
-        if (this.gatewayManager.breakUser(message.getUserId(), message.getRelationToken())) {
+        if (Constant.BREAK_TYPE_USER_CHANGE.equals(message.getType())) {
             userService.logout(message.getUserId(), token);
+        } else {
+            this.gatewayManager.breakToken(message.getToken(), message.getRelationToken());
+            if (this.gatewayManager.breakUser(message.getUserId(), message.getRelationToken())) {
+                userService.logout(message.getUserId(), token);
+            }
         }
+
 
     }
 

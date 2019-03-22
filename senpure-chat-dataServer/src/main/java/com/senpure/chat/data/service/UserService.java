@@ -41,7 +41,7 @@ public class UserService {
     public User findUser(long id) {
         User user = userIdMap.get(id);
         if (user == null && id < 10000) {
-            return login("12346", 0L, "");
+            return login("12346", 0L, "",id);
         }
         return userIdMap.get(id);
     }
@@ -51,7 +51,7 @@ public class UserService {
         return userStrMap.get(id);
     }
 
-    public User login(String id, Long gatewayToken, String nick) {
+    public User login(String id, Long gatewayToken, String nick,long oldId) {
         User user = userStrMap.get(id);
         if (user == null) {
             user = new User();
@@ -69,25 +69,18 @@ public class UserService {
         }
 
         if (user.getGatewayToken() != 0) {
-            //完成退出动作
             long token = user.getGatewayToken();
-            logout(user.getId(), user.getGatewayToken());
             //不同设备登陆同一个号，踢掉之前登陆的
             if (token != gatewayToken.longValue()) {
                 SCErrorMessage errorMessage = new SCErrorMessage();
                 errorMessage.setMessage("账号在其他地方登陆");
                 gatewayManager.sendMessage2GatewayByToken(token, errorMessage);
-
                 gatewayManager.sendKickOffMessage2GatewayByToken(token);
                 logger.info("{}[{}]其他地方重复登陆", user.getNick(), user.getId());
-
             }
-            //同一个设备重复登陆请求,交给网关处理
-            // else {
-            //  logger.info("{}[{}]重复登陆请求", user.getNick(), user.getId());
-            // }
-
         }
+        //if()
+
         user.setStrId(id);
         user.setGatewayToken(gatewayToken);
         user.setLoginTime(System.currentTimeMillis());
